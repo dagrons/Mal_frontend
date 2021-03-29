@@ -37,6 +37,13 @@
   }
 }
 
-.ant-upload-drag-container {
-    height: 430px;
+.ant-layout {
+  height: 100%;
+  display: -ms-flexbox;
+  display: flex;
+  /* flex: auto; */
+  flex: 0 0 0;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  min-height: 0;
 }

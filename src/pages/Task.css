@@ -1,0 +1,9 @@
+.ant-upload-drag-container {
+    height: 100%;
+}
+
+
+.ant-layout, .ant-layout * {
+    min-height: 720px;
+}
+

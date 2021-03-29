@@ -1,18 +1,30 @@
 {
   "name": "create",
-  "homepage": "/static/tasks/create/build/",
+  "homepage": "/",
   "version": "0.1.0",
   "private": true,
   "proxy": "http://localhost:5000",
+
   "dependencies": {
+    "@antv/g2plot": "^2.3.11",
+		"@antv/graphin": "1.6.4",
+		"@antv/graphin-components": "^2.0.1",
+    "@antv/graphin-icons": "^1.0.0",
+    
+    "@ant-design/charts": "^1.1.1",
     "@ant-design/icons": "^4.5.0",
+
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
+
     "ant-design-pro": "^2.3.2",
+
     "antd": "^4.12.3",
+
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
+    "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.2",
     "web-vitals": "^1.0.1"
   },
