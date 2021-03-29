@@ -36,3 +36,7 @@
     transform: rotate(360deg);
   }
 }
+
+.ant-upload-drag-container {
+    height: 430px;
+}
