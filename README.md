@@ -36,3 +36,12 @@ REPORT.displayName = 'report';  // for dev-tools
  */
 const prob = useContext(REPORT).png_res.prob;
 ```
+
+## 开发环境：
+package.json: 代理和部署
+vscode: 开发和调试
+
+## 项目结构风格
+src/layouts: wrapper for pages
+src/pages：pages with url rules
+src/component：reusable components
