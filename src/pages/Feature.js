@@ -50,10 +50,10 @@ export default () => {
 				report = data;
 				report.id = id;
 			})
-			.then(() => setIsLoading(report.cuckoo === null))
-			.then(() => setIsValid(report.isvalid))
 			.then(() => {
-				if (isValid && isLoading) setTimeout(polling, 3000);
+				setIsLoading(report.cuckoo===null);
+				setIsValid(report.isvalid);
+				if (report.isvalid && isLoading) setTimeout(polling ,3000);
 			})
 	}
 

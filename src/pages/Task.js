@@ -22,7 +22,7 @@ const props = {
             console.log(info.file, info.fileList);
         }
         if (status === "done") {
-            info.fileList[info.fileList.length - 1].url = '/feature/show/' + info.file.response.filename;
+            info.fileList[info.fileList.length - 1].url = '/#/feature/' + info.file.response.filename;
             message.success(`'${info.file.name}' file uploaded successfully.`);
         }
         else if (status === 'error') {

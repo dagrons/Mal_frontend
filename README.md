@@ -1,70 +1,38 @@
-# Getting Started with Create React App
+# React小结：
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Tips
+1. 在写React组件时，要思考哪些代码放render(){}内，哪些放render(){}外，
+> 对于只需要初始化一次的，可以放render(){}外，对于每次render后可能会改变的，放render(){}内，包括部分函数（使用到了render(){}内变量）
+2. "this" is ugly, avoid it!, class too!, only functions in js is the best practice!
+3. Context可以搞定一般的组件通信问题
+4. 层次感，结构感，去冗余
 
-## Available Scripts
+## Hooks - State & LifeCycle
+```javascript
+import { useState, useEffects } from 'react';
+```
+1. useState(xxx) 为当前组件创建一个state
+2. useEffects(xxx) 生命周期，在每次render时都会被执行
+3. useEffects(xxx, []) 用[]可以让xxx只在第一次被执行，后面不再执行
+4. useEffects(xxx => yyy) 返回yyy作为组件被销毁时执行的动作
 
-In the project directory, you can run:
+## Context - 组件通信
+```javascript
+import { createContext } from 'react';
+```
+1. 创建上下文
+```javascript
+/**
+ * globals 
+ */
+export const REPORT = createContext({}); // all capital for context
+REPORT.displayName = 'report';  // for dev-tools 
+```
 
-### `yarn start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `yarn test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `yarn build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+2. 使用上下文
+```javascript
+/**
+ * state
+ */
+const prob = useContext(REPORT).png_res.prob;
+```
