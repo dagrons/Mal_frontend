@@ -415,7 +415,7 @@
     insert-css "^2.0.0"
     ml-matrix "^6.5.0"
 
-"@antv/g6@^4.2.4":
+"@antv/g6@^4.2.4", "@antv/g6@^4.2.5":
   version "4.2.5"
   resolved "https://registry.npm.taobao.org/@antv/g6/download/@antv/g6-4.2.5.tgz?cache=0&sync_timestamp=1617015238833&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40antv%2Fg6%2Fdownload%2F%40antv%2Fg6-4.2.5.tgz#d733c91096f69bd7568e99eb6694c275e8a72200"
   integrity sha1-1zPJEJb2m9dWjpnrZpTCdeinIgA=

@@ -53,7 +53,7 @@ export default () => {
 			.then(() => {
 				setIsLoading(report.cuckoo===null);
 				setIsValid(report.isvalid);
-				if (report.isvalid && isLoading) setTimeout(polling ,3000);
+				if (report.isvalid && report.cuckoo === null) setTimeout(polling ,3000);
 			})
 	}
 

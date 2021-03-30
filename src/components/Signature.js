@@ -1,28 +1,50 @@
 /**
  * libs
  */
-import { Alert, Space, Card, Spin, message } from 'antd';
+import { Alert, Space, Card, Spin, Table, message } from 'antd';
 import Graphin, { Utils } from '@antv/graphin';
 
 import { useContext, useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import '@antv/graphin-components/dist/index.css'; // Graphin 组件 CSS
 
 /**
  * local components 
  */
 import { REPORT } from '../pages/Feature';
+import B from './BehaviorGraph';
 import './Signature.css';
 
 /**
  * local attrs
  */
-let data = null;
+// let data = null;
 let ttp_msg_list = [];
+
+/**
+ * config 
+ */
+const config = {
+    ttp_table_columns: [
+        {
+            title: '阶段',
+            dataIndex: 'stage',
+        },
+        {
+            title: '简介',
+            dataIndex: 'short',
+        },
+        {
+            title: '描述',
+            dataIndex: 'long',
+        }
+    ],
+};
 
 /**
  * utils
  */
-function preprocessing(signatures) { // construct tree nodes and egdes information from signatures
+/* function preprocessing(signatures) { // construct tree nodes and egdes information from signatures
     // 先计算总的节点数
     let count = 1 + signatures.length;
     for (let i = 0; i < signatures.length; i++) {
@@ -76,7 +98,7 @@ function preprocessing(signatures) { // construct tree nodes and egdes informati
     }
 
     return data;
-}
+} */
 
 export default () => {
     /**
@@ -86,7 +108,37 @@ export default () => {
     /**
      * unpack from context
      */
+    const { id } = useParams();
     const signatures = useContext(REPORT).cuckoo.signatures;
+
+    /**
+     * 构造树的过程
+     */
+    const data = (function make_tree() {
+        const data = { 'id': id, 'children': [] };
+        for (let i = 0; i < signatures.length; i++) {
+            if (signatures[i].marks.length == 0) 
+                data.children[i] = {'id': signatures[i].description + '__' + i.toString() }
+            else data.children[i] = { 'id': signatures[i].description + '__' + i.toString(), 'children': [] };            
+            for (let j = 0; j < signatures[i].marks.length; j++) {
+                const type = signatures[i].marks[j].type;
+                if (type == "call") {
+                    let id = signatures[i].marks[j].call.api;
+                    id += "(";
+                    const args = signatures[i].marks[j].call.arguments;
+                    for (const [k, v] of Object.entries(args)) id += " " + v;
+                    id += " )";        
+                    data.children[i].children[j] = { 'id': id + '__' + i.toString() + j.toString()};
+                    /* data.children[i].children[j] = { 'id': JSON.stringify(signatures[i].marks[j]) + '__' + i.toString() + j.toString()}; */
+                }
+                else if (type == "ioc")                
+                    data.children[i].children[j] = { 'id': JSON.stringify(signatures[i].marks[j]) + '__' + i.toString() + j.toString()};
+                else
+                    data.children[i].children[j] = { 'id': JSON.stringify(signatures[i].marks[j]) + '__' + i.toString() + j.toString() };
+            }
+        }
+        return data;
+    })()
 
     /**
      * state
@@ -101,11 +153,11 @@ export default () => {
             setIsLoading(true); // 原报告中没有signature信息
         }
         else {
-            data = preprocessing(signatures);
+            // data = preprocessing(signatures);
             for (let i = 0; i < signatures.length; i++) {
                 let ttp = signatures[i].ttp;
                 for (let k in ttp) {
-                    ttp_msg_list.push({ 'stage': k, 'msg': ttp[k] });
+                    ttp_msg_list.push({ 'stage': k, 'long': ttp[k].long, 'short': ttp[k].short });
                 }
             }
             setIsLoading(false);
@@ -115,26 +167,30 @@ export default () => {
     return (
         <div>
             {isLoading ?
-            <Spin />
+                <Spin />
                 :
-                signatures?
-            <>
-                <Card title="攻击行为图" >
-                    <Graphin data={data} layout={{ name: 'dagre' }} />
-                </Card>
-                <Card title="预警信息">
-                    <Space direction="vertical">
+                signatures ?
+                    <>
+{/*                         <Card title="攻击行为图" >
+                            <Graphin data={data} layout={{ name: 'dagre' }} />
+                        </Card> */}
+                        <Card title="攻击行为图">
+                            <B data={data} />
+                        </Card>
+                        <Card title="预警信息">
+                            {/*                   <Space direction="vertical">
                         {ttp_msg_list.map(ttp => (
                             <>
-                                {/*<Alert type="warning" message={ttp.stage + " short: " + ttp.msg.short} /> */}
-                                <Alert type="warning" message={ttp.msg.long} />
+                                <Alert type="warning" message={ttp.stage + " short: " + ttp.short} /> 
+                                <Alert type="warning" message={ttp.long} />
                             </>
                         ))}
-                    </Space>
-                </Card>
-            </>
+                    </Space> */}
+                            <Table title={() => "TTP阶段分析"} dataSource={ttp_msg_list} columns={config.ttp_table_columns} />
+                        </Card>
+                    </>
                     :
-            <Alert type="warning" message="暂无预警信息" />
+                    <Alert type="warning" message="暂无预警信息" />
             }
         </div>
     )

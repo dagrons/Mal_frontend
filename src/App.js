@@ -11,6 +11,7 @@ import Dashboard from './pages/Dashboard';
 import Task from './pages/Task';
 import Feature from './pages/Feature';
 import Prolayout from './layouts/prolayout';
+import B from './components/BehaviorGraph';
 import 'antd/dist/antd.min.css';
 import './App.css';
 
