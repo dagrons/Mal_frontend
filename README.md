@@ -38,8 +38,24 @@ const prob = useContext(REPORT).png_res.prob;
 ```
 
 ## 开发环境：
-package.json: 代理和部署
+package.json => proxy：设置代理
 vscode: 开发和调试
+
+## 关于部署
+package.json => homepage: where index.html find static files
+```javascript
+// index.html if homepage = "static/mal", xxx and yyy are generated static files 
+<script src="/static/mal/static/xxx.js">
+<script src="/static/mal/static/yyy.js">
+<link rel="manifest" href="/static/mal/manifest.json" />
+<link src="/static/mal/static/xxx.css">
+```
+```javascript
+// package.json
+"prebuild": "rm -rf ~/Mal/backend/static/tasks/create/*",
+"build": "react-scripts build",
+"postbuild": "cp build/index.html ~/Mal/backend/templates/mal/index.html && cp -r build/* ~/Mal/backend/static/mal",
+```
 
 ## 项目结构风格
 src/layouts: wrapper for pages

@@ -1,6 +1,6 @@
 {
   "name": "mal",
-  "homepage": "/",
+  "homepage": "static/mal",
   "version": "0.1.0",
   "private": true,
   "proxy": "http://localhost:5000",
@@ -30,9 +30,9 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "prebuild": "rm -rf ~/Mal/backend/static/tasks/create/*",
+    "prebuild": "rm -rf ~/Mal/backend/static/mal/*",
     "build": "react-scripts build",
-    "postbuild": "cp build/index.html ~/Mal/backend/templates/tasks/create.html && cp -r build ~/Mal/backend/static/tasks/create/",
+    "postbuild": "cp build/index.html ~/Mal/backend/templates/mal/index.html && cp -r build/* ~/Mal/backend/static/mal/",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
