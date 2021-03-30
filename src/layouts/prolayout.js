@@ -13,7 +13,7 @@ const { Header, Content, Footer } = Layout;
 
 export default (props) => {
     const location = useLocation(); // 用于选择 Menu.Item key=location
-	const history = useHistory();
+	const history = useHistory(); // 用于搜索框跳转
 
     return (
         <Layout className="layout" theme="light">
@@ -24,6 +24,9 @@ export default (props) => {
                     background: '#fff'
                 }}
             >
+
+                {/* TODO: 这里可能需要重构一下 */}
+
                 {/* 导航菜单 */}
                 <Menu theme="light" mode="horizontal" defaultSelectedKeys={[location]}>
                     <Menu.Item key="/dashboard"><AreaChartOutlined style={{ fontSize: "16px" }} /><NavLink to="/dashboard">数据面板</NavLink></Menu.Item>
@@ -56,14 +59,14 @@ export default (props) => {
             </Header>
 
             {/* 页面主体 */}
-            <Content>
+            <Content style={{ padding: '50px 50px 50px 50px' }} >
                 { props.children }
             </Content>
 
             {/* 页尾 */}
             <Footer style={{ textAlign: 'center' }}>
                 🐱‍🏍Mal is a platform for malware analysis
-	    			</Footer>
+	    	</Footer>
         </Layout>
     )
 }
