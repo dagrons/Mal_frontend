@@ -1,6 +1,7 @@
 /**
  * libs
  */
+import { useState } from 'react';
 import { Upload, message } from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
 
@@ -10,28 +11,42 @@ import { InboxOutlined } from '@ant-design/icons';
 const { Dragger } = Upload;
 
 /**
- * config for dragger
+ * use forceUpdate() in functional components 
  */
-const props = {
-    name: 'file',
-    mutiple: true,
-    action: '/tasks/create',
-    onChange(info) {
-        const { status } = info.file;
-        if (status !== "uploading") {
-            console.log(info.file, info.fileList);
-        }
-        if (status === "done") {
-            info.fileList[info.fileList.length - 1].url = '/#/feature/' + info.file.response.filename;
-            message.success(`'${info.file.name}' file uploaded successfully.`);
-        }
-        else if (status === 'error') {
-            message.error(`${info.file.name} file upload failed.`);
-        }
-    },
+function useForceUpdate() {
+    const [value, setValue] = useState(0);
+    return () => setValue(value => value + 1);
 }
 
+/**
+ * let's go
+ */
 export default () => {
+    const forceUpdate = useForceUpdate();
+
+    /**
+     * config for dragger
+     */
+    const props = {
+        name: 'file',
+        mutiple: true,
+        action: '/tasks/create',
+        onChange(info) {        
+            const { status } = info.file;
+            if (status !== "uploading") {
+                console.log(info.file, info.fileList);
+            }
+            if (status === "done") {
+                info.fileList[info.fileList.length - 1].url = '/#/feature/' + info.file.response.filename;
+                message.success(`'${info.file.name}' file uploaded successfully.`);
+            }
+            else if (status === 'error') {
+                message.error(`${info.file.name} file upload failed.`);
+            }        
+            forceUpdate();
+        },
+    }
+
     return (
         <>
             {/* 文件上传区 */}

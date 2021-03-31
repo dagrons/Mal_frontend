@@ -14,6 +14,7 @@ import NetworkFeature from '../components/NetworkFeature.js';
 import Classification from '../components/Classification';
 import Similarity from '../components/Similarity.js';
 import Signature from '../components/Signature.js';
+import Connection from '../components/Connection';
 import './Feature.css';
 
 /**
@@ -92,6 +93,7 @@ export default () => {
 							<TabPane tab="家族分类" key="4"><Classification /></TabPane>
 							<TabPane tab="同源分析" key="5"><Similarity /></TabPane>
 							<TabPane tab="预警分析" key="6"><Signature /></TabPane>
+							<TabPane tab="关联分析" key="7"><Connection /></TabPane>
 						</Tabs>
 					</div>
 				</REPORT.Provider>
