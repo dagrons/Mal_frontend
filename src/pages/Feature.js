@@ -88,7 +88,10 @@ export default () => {
 					<div>
 						<Tabs defaultActiveKey="1" tabPosition="left">
 							<TabPane tab="静态特征" key="1"><StaticFeature /></TabPane>
-							<TabPane tab="动态特征" key="2"><DynamicFeature /></TabPane>
+							
+							{report.cuckoo.behavior && /* 动态特征字段缺失 */
+								<TabPane tab="动态特征" key="2"><DynamicFeature /></TabPane>
+							}
 							<TabPane tab="网络特征" key="3"><NetworkFeature /></TabPane>
 							<TabPane tab="家族分类" key="4"><Classification /></TabPane>
 							<TabPane tab="同源分析" key="5"><Similarity /></TabPane>

@@ -3,7 +3,6 @@
  */
 import React, { useContext } from 'react';
 import { Tabs, Table, Typography, List } from 'antd';
-import { useParams } from 'react-router-dom';
 
 /**
  * local components

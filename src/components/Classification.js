@@ -20,7 +20,11 @@ export default () => {
     /**
      * state
      */
-    const prob = useContext(REPORT).png_res.prob;
+    let prob = null
+    if (!useContext(REPORT).png_res) {
+        prob = useContext(REPORT).asm_res.prob;
+    }
+    else prob = useContext(REPORT).png_res.prob;
 
     /**
      * effects

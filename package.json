@@ -24,7 +24,7 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "PORT=3030 react-scripts start",
     "prebuild": "rm -rf ~/Mal/backend/static/mal/*",
     "build": "react-scripts build",
     "postbuild": "cp build/index.html ~/Mal/backend/templates/mal/index.html && cp -r build/* ~/Mal/backend/static/mal/",
