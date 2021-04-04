@@ -103,7 +103,7 @@ export default () => {
 			<Result
 				status="404"
 				title="404"
-				subTitle={"😂对不起，没找到" + report.id + " 可能文件名输错了呢😁"}
+				subTitle={"😂对不起，没找到" + id + " 可能文件名输错了呢😁"}
 				extra={<Button type="primary"><Link to="/">Back Home</Link></Button>}
 			/>
 	)

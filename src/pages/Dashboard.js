@@ -5,105 +5,52 @@ import { Line, Bar, RingProgress, TinyArea } from '@ant-design/charts';
 import 'antd/dist/antd.css';
 import './Dashboard.css';
 
-const tinyarea_data = [
-  264,
-  417,
-  438,
-  887,
-  309,
-  397,
-  550,
-  575,
-  563,
-  430,
-  525,
-  592,
-  492,
-  467,
-  513,
-  546,
-  983,
-  340,
-  539,
-  243,
-  226,
-  192,
-];
-
-const tinyarea_config = {
-  height: 100,
-  autoFit: false,
-  data: tinyarea_data,
-  smooth: true,
-};
-
-const bar_data = [
-  {
-    family: 'Ramnit',
-    count: 315,
-  },
-  {
-    family: 'Lollipop',
-    count: 518,
-  },
-  {
-    family: 'Kelihos_ver3',
-    count: 692,
-  },
-  {
-    family: 'Vundo',
-    count: 444,
-  },
-  {
-    family: 'Simda',
-    count: 840,
-  },
-  {
-    family: 'Tracur',
-    count: 249
-  },
-  {
-    family: 'Kelihos_ver1',
-    count: 283
-  },
-  {
-    family: 'Obfuscator',
-    count: 875
-  },
-  {
-    family: 'Gatak',
-    count: 465
-  },
-];
-
-const bar_config = {
-  data: bar_data,
-  height: 400,
-  xField: 'count',
-  yField: 'family',
-  seriesField: 'family',
-  legend: { position: 'top-left' },
-}
-
-const table_data = bar_data;
-
-const table_columns = [
-  {
-    title: 'family',
-    dataIndex: 'family',
-    key: 'family',
-  },
-  {
-    title: 'count',
-    dataIndex: 'count',
-    key: 'count',
-  }
-]
-
 const choices = ["Ramnit", "Lollipop", "Kelihos_ver3", "Vundo", "Simda", "Tracur", "Kelihos_ver1", "Obfuscator", "Gatak"];
 
 export default () => {
+  const [uploaded, setUploaded] = useState(0);
+  const [processed, setProcessed] = useState(0);
+  const [recent, setRecent] = useState(0);
+  const [tinyarea_data, setTinyAreaData] = useState([]);
+  const [typeres_data, setTyperesData] = useState([]);
   const [line_data, setLineData] = useState([]);
+  const [dist, setDist] = useState([
+    { type: 'Ramnit', value: 0 },
+    { type: 'Lollipop', value: 0 },
+    { type: 'Kelihos_ver3', value: 0 },
+    { type: 'Vundo', value: 0 },
+    { type: 'Simda', value: 0 },
+    { type: 'Tracur', value: 0 },
+    { type: 'Kelihos_ver1', value: 0 },
+    { type: 'Obfuscator', value: 0 },
+    { type: 'Gatak', value: 0 },
+  ]);
+
+  useEffect(() => {
+    fetch('/dashboard')
+      .then(res => res.json())
+      .then(data => {
+        setUploaded(data.samples_count);
+        setProcessed(data.processed_count);
+        setRecent(data.recent_count);
+        setTinyAreaData(data.trend_area);
+        const typeres = []
+
+        let cnt = 0;
+        for (const [k, v] of Object.entries(data.type_res)) {
+          typeres.push({ family: k, count: v });
+          cnt += v;
+        }
+        setTyperesData(typeres)
+
+        let idx = 0
+        let t = []
+        for (const [k, v] of Object.entries(data.type_res)) {
+          t[idx++] = { type: k, value: v / cnt }
+        }
+        setDist(t)
+      })
+  }, [])
 
   useEffect(() => {
     asyncFetch();
@@ -129,6 +76,37 @@ export default () => {
         console.log('fetch data failed', error);
       });
   };
+
+  const tinyarea_config = {
+    height: 100,
+    autoFit: false,
+    data: tinyarea_data,
+    smooth: true,
+  };
+
+  const bar_config = {
+    data: typeres_data,
+    height: 400,
+    xField: 'count',
+    yField: 'family',
+    seriesField: 'family',
+    legend: { position: 'top-left' },
+  }
+
+  const table_columns = [
+    {
+      title: 'family',
+      dataIndex: 'family',
+      key: 'family',
+    },
+    {
+      title: 'count',
+      dataIndex: 'count',
+      key: 'count',
+    }
+  ]
+
+
   const line_config = {
     data: line_data,
     height: 300,
@@ -160,9 +138,9 @@ export default () => {
             height: "188px"
           }}>
             <Space>
-              <Statistic title="上传数" value={4723} />
-              <Statistic title="处理样本数" value={4681} />
-              <Statistic title="近期上传样本数" value={27} />
+              <Statistic title="上传数" value={uploaded} />
+              <Statistic title="处理样本数" value={processed} />
+              <Statistic title="近期上传样本数" value={recent} />
             </Space>
           </Card>
         </Col>
@@ -170,60 +148,15 @@ export default () => {
           <Card title="样本分布">
             <div>
               <Space>
-                <div style={{
-                  textAlign: 'center'
-                }}>
-                  Ramnit
-                      <RingProgress width={60} height={60} percent={0.12} color={['#30BF78', '#E8EDF3']} />
-                </div>
-                <div style={{
-                  textAlign: 'center'
-                }}>
-                  Lollipop
-                      <RingProgress width={60} height={60} percent={0.14} color={['#F0BF78', '#E8EDF3']} />
-                </div>
-                <div style={{
-                  textAlign: 'center'
-                }}>
-                  Kelihos_ver3
-                      <RingProgress width={60} height={60} percent={0.06} color={['#F00FF8', '#E8EDF3']} />
-                </div>
-                <div style={{
-                  textAlign: 'center'
-                }}>
-                  Vundo
-                      <RingProgress width={60} height={60} percent={0.13} color={['#300F08', '#E8EDF3']} />
-                </div>
-                <div style={{
-                  textAlign: 'center'
-                }}>
-                  Simda
-                      <RingProgress width={60} height={60} percent={0.07} color={['#E0BFE8', '#E8EDF3']} />
-                </div>
-                <div style={{
-                  textAlign: 'center'
-                }}>
-                  Tracur
-                      <RingProgress width={60} height={60} percent={0.12} color={['#606F78', '#E8EDF3']} />
-                </div>
-                <div style={{
-                  textAlign: 'center'
-                }}>
-                  Kelihos_ver1
-                      <RingProgress width={60} height={60} percent={0.08} color={['#909F78', '#E8EDF3']} />
-                </div>
-                <div style={{
-                  textAlign: 'center'
-                }}>
-                  Obfuscator
-                      <RingProgress width={60} height={60} percent={0.11} color={['#505F78', '#E8EDF3']} />
-                </div>
-                <div style={{
-                  textAlign: 'center'
-                }}>
-                  Gatak
-                      <RingProgress width={60} height={60} percent={0.09} color={['#306F68', '#E8EDF3']} />
-                </div>
+                {dist.map((t) => (
+                  <div style={{
+                    textAlign: 'center'
+                  }}>
+                    {t.type}
+                    <RingProgress width={60} height={60} percent={t.value} color={['#30BF78', '#E8EDF3']} />
+                  </div>
+                ))
+                }
               </Space>
             </div>
           </Card>
@@ -247,7 +180,7 @@ export default () => {
               </Col>
               <Col span={8}>
                 <Table
-                  dataSource={table_data}
+                  dataSource={typeres_data}
                   columns={table_columns}
                   size="small"
                   showHeader={false}
