@@ -82,11 +82,7 @@ export default () => {
   /**
    * state
    */
-  const { cuckoo } = useContext(REPORT);
-  const procmem = cuckoo.procmem ? cuckoo.procmemory[0].regions : null;
-  const summary = cuckoo.behavior.summary;
-  const extracted = cuckoo.extracted; // 可能解析的恶意脚本信息
-  const dropped = cuckoo.dropped; // 投放的恶意软件信息
+  const { behavior, procmemory } = useContext(REPORT);
 
   /**
    * ui
@@ -95,18 +91,18 @@ export default () => {
     <Tabs defaultActiveKey='1' tabPosition="top">
 
       {/* 内存分布 */}
-      {procmem != null &&
+      {procmemory &&
         <TabPane tab="内存分布" key="1">
-          <Table dataSource={procmem} columns={config.procMemory_columns} />
+          <Table dataSource={procmemory} columns={config.procMemory_columns} />
         </TabPane>
       }
 
       {/* 注册表 */}
-      {summary &&
+      {behavior &&
         <TabPane tab="注册表" key='2'>
           <List
             bordered
-            dataSource={summary.regkey_read}
+            dataSource={behavior.regkey_read}
             renderItem={item => (
               <List.Item>
                 {item}
@@ -117,13 +113,13 @@ export default () => {
       }
 
       {/* 文件操作 */}
-      {summary != null &&
+      {behavior != null &&
         <TabPane tab="文件操作" key='3'>
           <div>
             <Title level={5}>文件创建</Title>
             <List
               bordered
-              dataSource={summary.file_created}
+              dataSource={behavior.file_created}
               renderItem={item => (
                 <List.Item>
                   {item}
@@ -133,7 +129,7 @@ export default () => {
             <Title level={5}>文件重创建</Title>
             <List
               bordered
-              dataSource={summary.file_recreated}
+              dataSource={behavior.file_recreated}
               renderItem={item => (
                 <List.Item>
                   {item}
@@ -143,7 +139,7 @@ export default () => {
             <Title level={5}>文件打开</Title>
             <List
               bordered
-              dataSource={summary.file_opened}
+              dataSource={behavior.file_opened}
               renderItem={item => (
                 <List.Item>
                   {item}
@@ -153,7 +149,7 @@ export default () => {
             <Title level={5}>文件读取</Title>
             <List
               bordered
-              dataSource={summary.file_read}
+              dataSource={behavior.file_read}
               renderItem={item => (
                 <List.Item>
                   {item}
@@ -165,11 +161,11 @@ export default () => {
       }
 
       {/* 互斥量 */}
-      {summary &&
+      {behavior &&
         <TabPane tab="互斥量" key='4'>
           <List
             bordered
-            dataSource={summary.mutex}
+            dataSource={behavior.mutex}
             renderItem={item => (
               <List.Item>
                 {item}
@@ -180,11 +176,11 @@ export default () => {
       }
 
       {/* 动态链接库 */}
-      {summary &&
+      {behavior &&
         <TabPane tab="动态链接库" key='5'>
           <List
             bordered
-            dataSource={summary.dll_loaded}
+            dataSource={behavior.dll_loaded}
             renderItem={item => (
               <List.Item>
                 {item}
@@ -195,16 +191,16 @@ export default () => {
       }
 
       {/* 解析出的可能恶意脚本 */}
-      {extracted &&
+      {behavior.extracted &&
         <TabPane tab="可能的恶意脚本" key="6">
-          <Table dataSource={extracted} columns={config.extracted_columns} />
+          <Table dataSource={behavior.extracted} columns={config.extracted_columns} />
         </TabPane>
       }
 
       {/* 投放的恶意软件 */}
-      {dropped &&
+      {behavior.dropped &&
         <TabPane tab="投放的恶意软件" key="7">
-          <Table dataSource={dropped} columns={config.dropped_columns} />
+          <Table dataSource={behavior.dropped} columns={config.dropped_columns} />
         </TabPane>
       }
     </Tabs>

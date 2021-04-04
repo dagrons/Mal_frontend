@@ -48,8 +48,8 @@ export default () => {
     /**
      * unpack from context
      */
-    const sim = useContext(REPORT).asm_res.sim;
-    const id = useContext(REPORT).id;
+    const sim = useContext(REPORT).local.asm_res.sim;
+    const id = useContext(REPORT)._id;
 
     /**
      * state

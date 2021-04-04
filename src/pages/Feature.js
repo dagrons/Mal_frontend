@@ -48,13 +48,10 @@ export default () => {
 		fetch('/feature/report/get/' + id)
 			.then(res => res.json())
 			.then((data) => {
-				report = data;
-				report.id = id;
-			})
-			.then(() => {
-				setIsLoading(report.cuckoo===null);
-				setIsValid(report.isvalid);
-				if (report.isvalid && report.cuckoo === null) setTimeout(polling ,3000);
+				report = data.report; 
+				setIsLoading(data.status !== "reported");				
+				setIsValid(data.isvalid);
+				if (data.isvalid && data.status !== "reported") setTimeout(polling, 3000); // 如果任务在队列中并且正执行就等会再试
 			})
 	}
 
@@ -80,7 +77,7 @@ export default () => {
 							<PageHeader
 								className="site-page-header"
 								onBack={() => null}
-								title={report.id + " 分析报告"}
+								title={report._id + " 分析报告"}
 								subTitle="">
 							</PageHeader>
 						</Link>
@@ -89,13 +86,15 @@ export default () => {
 						<Tabs defaultActiveKey="1" tabPosition="left">
 							<TabPane tab="静态特征" key="1"><StaticFeature /></TabPane>
 							
-							{report.cuckoo.behavior && /* 动态特征字段缺失 */
+							{report.behavior && /* 动态特征为可选字段 */
 								<TabPane tab="动态特征" key="2"><DynamicFeature /></TabPane>
 							}
 							<TabPane tab="网络特征" key="3"><NetworkFeature /></TabPane>
 							<TabPane tab="家族分类" key="4"><Classification /></TabPane>
 							<TabPane tab="同源分析" key="5"><Similarity /></TabPane>
-							<TabPane tab="预警分析" key="6"><Signature /></TabPane>
+							{report.signatures && /* sigature为可选字段 */
+								<TabPane tab="预警分析" key="6"><Signature /></TabPane>								
+							}
 							<TabPane tab="关联分析" key="7"><Connection /></TabPane>
 						</Tabs>
 					</div>

@@ -29,7 +29,7 @@ export default () => {
      */
     const props = {
         name: 'file',
-        mutiple: true,
+        multiple: true,
         action: '/tasks/create',
         onChange(info) {        
             const { status } = info.file;
@@ -37,7 +37,10 @@ export default () => {
                 console.log(info.file, info.fileList);
             }
             if (status === "done") {
-                info.fileList[info.fileList.length - 1].url = '/#/feature/' + info.file.response.filename;
+                // 刷新任务列表
+                info.fileList.forEach((it) => {
+                    it.url = '/#/feature/' + info.file.response.filename;
+                })
                 message.success(`'${info.file.name}' file uploaded successfully.`);
             }
             else if (status === 'error') {

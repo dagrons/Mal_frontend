@@ -14,7 +14,7 @@ import { REPORT } from "../pages/Feature";
 export default () => {    
     /* use id(filename) as the keyword to query the neo4j */
 
-    const id = useContext(REPORT).id;
+    const id = useContext(REPORT)._id;
 
     const url_for_kg = "http://localhost:8080?name="
 

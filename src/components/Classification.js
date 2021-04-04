@@ -20,11 +20,16 @@ export default () => {
     /**
      * state
      */
-    let prob = null
-    if (!useContext(REPORT).png_res) {
-        prob = useContext(REPORT).asm_res.prob;
+    let pr = null
+    if (!useContext(REPORT).local.png_res) {
+        pr = useContext(REPORT).local.asm_res.prob;
     }
-    else prob = useContext(REPORT).png_res.prob;
+    else pr = useContext(REPORT).local.png_res.prob;
+
+    let prob = []
+    for (const [k, v] of Object.entries(pr)) {
+        prob.push({type: k, value: v});
+    }
 
     /**
      * effects

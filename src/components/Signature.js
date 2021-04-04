@@ -108,8 +108,8 @@ export default () => {
     /**
      * unpack from context
      */
-    const { id } = useParams();
-    const signatures = useContext(REPORT).cuckoo.signatures;
+    const { _id, signatures }= useContext(REPORT);
+    const id = _id;
 
     /**
      * 构造树的过程

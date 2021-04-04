@@ -59,10 +59,8 @@ export default () => {
   /**
    * unpack
    */
-  const { id } = report;
-  const cuckoo = report.cuckoo // state from context, static is reserved keyword, so use _static
-  const { pe_imports, pe_sections } = cuckoo.static;
-  const strings = cuckoo.strings;
+  const id = report._id;
+  const { pe_imports, pe_sections, strings } = report.static;
 
   /**
    * ui

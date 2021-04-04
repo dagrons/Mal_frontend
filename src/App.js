@@ -18,30 +18,30 @@ import './App.css';
  * let's go
  */
 export default () => {
-	/**
-	 * ui
-	 */
-	return (
-		<Switch>
+    /**
+     * ui
+     */    
+    return (
+	<Switch>
 
-			{/* 文件上传页面 */}
-			<Route path="/task">
-				<Prolayout>
-					<Task />
-				</Prolayout>
-			</Route>
+	  {/* 文件上传页面 */}
+	  <Route path="/task">
+	    <Prolayout>
+	      <Task />
+	    </Prolayout>
+	  </Route>
 
-			{/* 特征展示页面 */} {/* 特征展示页面使用自己的布局 */}
-			<Route path='/feature/:id' >
-				<Feature />
-			</Route>
+	  {/* 特征展示页面 */} {/* 特征展示页面使用自己的布局 */}
+	  <Route path='/feature/:id' >
+	    <Feature />
+	  </Route>
 
-			{/* 数据面板页面 */}
-			<Route path="/">
-				<Prolayout>
-					<Dashboard />
-				</Prolayout>
-			</Route>
-		</Switch>
-	);
+	  {/* 数据面板页面 */}
+	  <Route path="/">
+	    <Prolayout>
+	      <Dashboard />
+	    </Prolayout>
+	  </Route>
+	</Switch>
+    );
 }

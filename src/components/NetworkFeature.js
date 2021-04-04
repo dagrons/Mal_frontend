@@ -52,7 +52,7 @@ export default () => {
     /**
      * state
      */
-    const network = useContext(REPORT).cuckoo.network
+    const network = useContext(REPORT).network
 
     /**
      * ui
