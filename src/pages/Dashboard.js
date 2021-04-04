@@ -8,8 +8,8 @@ import './Dashboard.css';
 const choices = ["Ramnit", "Lollipop", "Kelihos_ver3", "Vundo", "Simda", "Tracur", "Kelihos_ver1", "Obfuscator", "Gatak"];
 
 export default () => {
+  const [current, setCurrent] = useState(0);
   const [uploaded, setUploaded] = useState(0);
-  const [processed, setProcessed] = useState(0);
   const [recent, setRecent] = useState(0);
   const [tinyarea_data, setTinyAreaData] = useState([]);
   const [typeres_data, setTyperesData] = useState([]);
@@ -31,7 +31,7 @@ export default () => {
       .then(res => res.json())
       .then(data => {
         setUploaded(data.samples_count);
-        setProcessed(data.processed_count);
+        setCurrent(data.current_count);
         setRecent(data.recent_count);
         setTinyAreaData(data.trend_area);
         const typeres = []
@@ -139,7 +139,7 @@ export default () => {
           }}>
             <Space>
               <Statistic title="上传数" value={uploaded} />
-              <Statistic title="处理样本数" value={processed} />
+              <Statistic title="正在处理" value={current} />
               <Statistic title="近期上传样本数" value={recent} />
             </Space>
           </Card>
