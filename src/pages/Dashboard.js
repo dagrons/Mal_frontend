@@ -50,7 +50,7 @@ export default () => {
         }
         setDist(t)
       })
-  })
+  }, [])
 
   useEffect(() => {
     asyncFetch();
