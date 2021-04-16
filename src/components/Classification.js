@@ -20,11 +20,7 @@ export default () => {
     /**
      * state
      */
-    let pr = null
-    if (!useContext(REPORT).local.png_res) {
-        pr = useContext(REPORT).local.asm_res.prob;
-    }
-    else pr = useContext(REPORT).local.png_res.prob;
+    let pr = useContext(REPORT).local.malware_classification_resnet34;
 
     let prob = []
     for (const [k, v] of Object.entries(pr)) {
