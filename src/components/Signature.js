@@ -128,13 +128,13 @@ export default () => {
                     const args = signatures[i].marks[j].call.arguments;
                     for (const [k, v] of Object.entries(args)) id += " " + v;
                     id += " )";        
-                    data.children[i].children[j] = { 'id': id + '__' + i.toString() + j.toString()};
+                    data.children[i].children[j] = { 'id': id.slice(0, 400) + '__' + i.toString() + j.toString()};
                     /* data.children[i].children[j] = { 'id': JSON.stringify(signatures[i].marks[j]) + '__' + i.toString() + j.toString()}; */
                 }
                 else if (type == "ioc")                
-                    data.children[i].children[j] = { 'id': JSON.stringify(signatures[i].marks[j]) + '__' + i.toString() + j.toString()};
+                    data.children[i].children[j] = { 'id': JSON.stringify(signatures[i].marks[j]).slice(0, 400) + '__' + i.toString() + j.toString()};
                 else
-                    data.children[i].children[j] = { 'id': JSON.stringify(signatures[i].marks[j]) + '__' + i.toString() + j.toString() };
+                    data.children[i].children[j] = { 'id': JSON.stringify(signatures[i].marks[j]).slice(0, 400) + '__' + i.toString() + j.toString() };
             }
         }
         return data;
