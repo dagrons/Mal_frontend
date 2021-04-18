@@ -49,6 +49,7 @@ export default () => {
 			.then(res => res.json())
 			.then((data) => {
 				report = data.report; 
+				report.five_most_like = data.five_most_like;
 				setIsLoading(data.status !== "reported");				
 				setIsValid(data.isvalid);
 				if (data.isvalid && data.status !== "reported") setTimeout(polling, 3000); // 如果任务在队列中并且正执行就等会再试

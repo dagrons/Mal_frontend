@@ -39,7 +39,9 @@ export default () => {
             if (status === "done") {
                 // 刷新任务列表
                 info.fileList.forEach((it) => {
-                    it.url = '/#/feature/' + info.file.response.filename;
+                    if (it.response) {
+                        it.url = '/#/feature/' + it.response.filename;
+                    }
                 })
                 message.success(`'${info.file.name}' file uploaded successfully.`);
             }

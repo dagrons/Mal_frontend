@@ -32,7 +32,7 @@ function preprocessing(id, sim) { // 从sim中构造节点和边信息
     for (let i = 0; i < sim.length; i++) {
         data.edges[i].source = 'node-0';
         data.edges[i].target = 'node-' + (i + 1).toString();
-        data.edges[i].label = sim[i][1];
+        data.edges[i].label = sim[i][1].toString().slice(0, 4);
     }
     data.edges = data.edges.slice(0, sim.length);
     return data;
@@ -48,7 +48,7 @@ export default () => {
     /**
      * unpack from context
      */
-    const sim = useContext(REPORT).local.asm_res.sim;
+    const sim = useContext(REPORT).five_most_like;
     const id = useContext(REPORT)._id;
 
     /**
