@@ -2,7 +2,8 @@
  * libs
  */
 import React, { useContext, useEffect, useState } from 'react';
-import { Row, Divider, Typography, Spin } from 'antd';
+import { Link } from 'react-router-dom';
+import { Row, Table, Divider, Typography, Spin } from 'antd';
 import Graphin, { Utils } from '@antv/graphin';
 import '@antv/graphin/dist/index.css'; // 引入Graphin CSS
 
@@ -40,6 +41,23 @@ function preprocessing(id, sim) { // 从sim中构造节点和边信息
 
 let gdata = null;
 
+const columns = [
+    {
+        title: 'name',
+        dataIndex: 'name',
+        key: 'name',
+        render: name => <Link target={"_blank"} to={"/feature/" + name}>{name}</Link>
+    },
+    {
+        title: 'value',
+        dataIndex: 'value',
+        key: 'value',
+    }
+]
+
+let tdata = [];
+
+
 /**
  * let's go
  */
@@ -61,6 +79,9 @@ export default () => {
      */
     useEffect(() => {
         gdata = preprocessing(id.length, sim);
+        for (const t of sim) {
+            tdata.push({ 'name': t[0], 'value': t[1].toString() });
+        }
         setIsLoading(false);
     }, []);
 
@@ -69,17 +90,20 @@ export default () => {
      */
     return (
         <div>
-            <Row>
-                <Title level={5}>同源分析结果</Title>
-                {isLoading?
-                    <Spin />
-                    :
-                    <Graphin
-                        data={gdata}
-                        layout={{ name: 'force', options: { preset: 'concentric' } }}
-                    />
-                }
-            </Row>
+            {isLoading ?
+                <Spin />
+                :
+                <div>
+                    <Row>
+                        <Title level={5}>同源分析结果</Title>
+                        <Graphin
+                            data={gdata}
+                            layout={{ name: 'force', options: { preset: 'concentric' } }}
+                        />
+                    </Row>
+                    <Table columns={columns} dataSource={tdata} />
+                </div>
+            }
             <Divider>模型描述</Divider>
             <Row>
                 <Paragraph>

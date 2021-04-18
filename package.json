@@ -25,9 +25,9 @@
   },
   "scripts": {
     "start": "PORT=3030 react-scripts start",
-    "prebuild": "rm -rf ~/Mal/backend/static/mal/*",
+    "prebuild": "rm -rf ~/Mal_backend/static/mal/*",
     "build": "react-scripts build",
-    "postbuild": "cp build/index.html ~/Mal/backend/templates/mal/index.html && cp -r build/* ~/Mal/backend/static/mal/",
+    "postbuild": "cp build/index.html ~/Mal_backend/templates/mal/index.html && cp -r build/* ~/Mal_backend/static/mal/",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
