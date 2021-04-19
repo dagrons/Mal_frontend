@@ -22,6 +22,7 @@ import './Feature.css';
  */
 export const REPORT = createContext({}); REPORT.displayName = 'report';  // for dev-tools // all capital for context
 let report = null; // report will be initialized multiple times. // use report as value for REPORT context
+let msg = "";
 
 /**
  * unpack
@@ -47,12 +48,20 @@ export default () => {
 	function polling() {
 		fetch('/feature/report/get/' + id)
 			.then(res => res.json())
-			.then((data) => {
-				report = data.report; 
-				report.five_most_like = data.five_most_like;
-				setIsLoading(data.status !== "reported");				
-				setIsValid(data.isvalid);
-				if (data.isvalid && data.status !== "reported") setTimeout(polling, 3000); // 如果任务在队列中并且正执行就等会再试
+			.then((data) => {			
+				if (data.status == "reported") {
+					report = data.report; 
+					report.five_most_like = data.five_most_like;
+				}	
+				if (data.status == 'error') {
+					setIsValid(data.isvalid); // 这个也是invalid
+					msg = data.msg;
+				}
+				else {				
+					setIsLoading(data.status !== "reported");
+					setIsValid(data.isvalid);
+					if (data.isvalid && data.status !== "reported") setTimeout(polling, 3000); // 如果任务在队列中并且正执行就等会再试
+				}
 			})
 	}
 
@@ -104,7 +113,7 @@ export default () => {
 			<Result
 				status="404"
 				title="404"
-				subTitle={"😂对不起，没找到" + id + " 可能文件名输错了呢😁"}
+				subTitle={msg || "😂对不起，没找到" + id + " 可能文件名输错了呢😁"}
 				extra={<Button type="primary"><Link to="/">Back Home</Link></Button>}
 			/>
 	)

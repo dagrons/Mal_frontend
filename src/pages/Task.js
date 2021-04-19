@@ -38,9 +38,15 @@ export default () => {
             }
             if (status === "done") {
                 // 刷新任务列表
+                if (info.file.response.status != 'success') {
+                    message.error('file type is not pe');
+                }
                 info.fileList.forEach((it) => {
                     if (it.response) {
                         it.url = '/#/feature/' + it.response.filename;
+                        if (it.response.status != "success") {
+                            it.status = 'error';
+                        }
                     }
                 })
                 message.success(`'${info.file.name}' file uploaded successfully.`);
