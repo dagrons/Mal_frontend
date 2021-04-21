@@ -39,7 +39,28 @@ const prob = useContext(REPORT).png_res.prob;
 
 ## 开发环境：
 package.json => proxy：设置代理
+
 vscode: 开发和调试
+1. 首先启动development serve，默认监听3030端口
+```bash
+yarn start
+```
+2. 如果是在wsl下, 需要先使用netsh进行端口映射
+3. 配置launch.js, 就可以调试了
+```
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "pwa-chrome",
+            "request": "launch",
+            "name": "Launch Chrome against localhost",
+            "url": "http://localhost:3030/static/mal", // 这里和development server一致
+            "webRoot": "${workspaceFolder}"
+        }
+    ]
+}
+```
 
 ## 关于部署
 package.json => homepage: where index.html find static files
