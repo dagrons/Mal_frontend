@@ -30,7 +30,7 @@ export default () => {
     const props = {
         name: 'file',
         multiple: true,
-        action: '/tasks/create',
+        action: '/api/v1/tasks/create',
         onChange(info) {        
             const { status } = info.file;
             if (status !== "uploading") {

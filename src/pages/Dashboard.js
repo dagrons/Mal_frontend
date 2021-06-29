@@ -27,7 +27,7 @@ export default () => {
   ]);
 
   useEffect(() => {
-    fetch('/dashboard')
+    fetch('/api/v1/feature/dashboard')
       .then(res => res.json())
       .then(data => {
         setUploaded(data.samples_count);

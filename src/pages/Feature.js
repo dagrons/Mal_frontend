@@ -46,7 +46,7 @@ export default () => {
 	 * actions
 	 */
 	function polling() {
-		fetch('/feature/report/get/' + id)
+		fetch('/api/v1/feature/report/get/' + id)
 			.then(res => res.json())
 			.then((data) => {			
 				if (data.status == "reported") {

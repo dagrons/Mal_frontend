@@ -97,7 +97,7 @@ export default () => {
           
           <Image 
             width={200}
-            src={"/feature/bmp/get/"+id}
+            src={"/api/v1/feature/bmp/get/"+id}
           />
         </TabPane>
 
