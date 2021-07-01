@@ -16,7 +16,7 @@ export default () => {
 
   const id = useContext(REPORT)._id;
 
-  const url_for_kg = "http://localhost:8080?name=";
+  const url_for_kg = "http://10.112.209.170:8080/?name=";
 
   /* use iframe to embed sub html => fantasy! */
   return (

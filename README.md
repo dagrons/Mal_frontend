@@ -82,3 +82,7 @@ package.json => homepage: where index.html find static files
 src/layouts: wrapper for pages
 src/pages：pages with url rules
 src/component：reusable components
+
+## FAQ
+- Nodemon Error: System limit for number of file watchers reached
+> https://stackoverflow.com/questions/53930305/nodemon-error-system-limit-for-number-of-file-watchers-reached
