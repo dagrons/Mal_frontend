@@ -6,7 +6,7 @@ import { useContext } from "react";
 /**
  * locals
  */
-import { REPORT } from "../pages/Feature";
+import { ReportContext } from "../context";
 
 /**
  * let's go
@@ -14,7 +14,7 @@ import { REPORT } from "../pages/Feature";
 export default () => {
   /* use id(filename) as the keyword to query the neo4j */
 
-  const id = useContext(REPORT)._id;
+  const id = useContext(ReportContext)._id;
 
   const url_for_kg = "http://10.112.209.170:8080/?name=";
 

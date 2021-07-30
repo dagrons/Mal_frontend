@@ -3,7 +3,7 @@ import { Row, Col, Space, Card, Statistic, Table } from "antd";
 import { Line, Bar, RingProgress, TinyArea } from "@ant-design/charts";
 
 import "antd/dist/antd.css";
-import "./Dashboard.css";
+import "./index.css";
 
 const choices = [
   "Ramnit",
@@ -63,10 +63,6 @@ export default () => {
   }, []);
 
   useEffect(() => {
-    asyncFetch();
-  }, []);
-
-  const asyncFetch = () => {
     fetch(
       "https://gw.alipayobjects.com/os/bmw-prod/e00d52f4-2fa6-47ee-a0d7-105dd95bde20.json"
     )
@@ -87,16 +83,16 @@ export default () => {
       .catch((error) => {
         console.log("fetch data failed", error);
       });
-  };
+  }, []);
 
-  const tinyarea_config = {
+  const propsTinyArea = {
     height: 100,
     autoFit: false,
     data: tinyarea_data,
     smooth: true,
   };
 
-  const bar_config = {
+  const propsBar = {
     data: typeres_data,
     height: 400,
     xField: "count",
@@ -105,20 +101,26 @@ export default () => {
     legend: { position: "top-left" },
   };
 
-  const table_columns = [
-    {
-      title: "family",
-      dataIndex: "family",
-      key: "family",
-    },
-    {
-      title: "count",
-      dataIndex: "count",
-      key: "count",
-    },
-  ];
+  const propsTable = {
+    dataSource: typeres_data,
+    columns: [
+      {
+        title: "family",
+        dataIndex: "family",
+        key: "family",
+      },
+      {
+        title: "count",
+        dataIndex: "count",
+        key: "count",
+      },
+    ],
+    size: "small",
+    showHeader: false,
+    pagination: { position: ["none", "none"] },
+  };
 
-  const line_config = {
+  const propsLine = {
     data: line_data,
     height: 300,
     xField: "year",
@@ -188,7 +190,7 @@ export default () => {
               height: "188px",
             }}
           >
-            <TinyArea {...tinyarea_config} />
+            <TinyArea {...propsTinyArea} />
           </Card>
         </Col>
       </Row>
@@ -202,16 +204,10 @@ export default () => {
           <Card title="各个家族分布">
             <Row gutter={16} align="middle">
               <Col span={16}>
-                <Bar {...bar_config} />
+                <Bar {...propsBar} />
               </Col>
               <Col span={8}>
-                <Table
-                  dataSource={typeres_data}
-                  columns={table_columns}
-                  size="small"
-                  showHeader={false}
-                  pagination={{ position: ["none", "none"] }}
-                />
+                <Table {...propsTable} />
               </Col>
             </Row>
           </Card>
@@ -225,7 +221,7 @@ export default () => {
       >
         <Col flex="auto">
           <Card title="流行趋势图">
-            <Line {...line_config} />
+            <Line {...propsLine} />
           </Card>
         </Col>
       </Row>

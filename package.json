@@ -3,7 +3,7 @@
   "homepage": "static/",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:6001/api/v2",
+  "proxy": "http://localhost:5000/api/v2",
   "dependencies": {
     "@ant-design/charts": "^1.1.1",
     "@ant-design/icons": "^4.5.0",

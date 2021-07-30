@@ -1,61 +1,43 @@
-/**
- * libs
- */
-import React, { useEffect, useState, createContext } from "react";
+import React, { useEffect, useState } from "react";
 import { PageHeader, Button, Tabs, Spin, Result } from "antd";
 import { useParams, Link } from "react-router-dom";
 
-/**
- * local components
- */
-import StaticFeature from "../components/StaticFeature.js";
-import DynamicFeature from "../components/DynamicFeature.js";
-import NetworkFeature from "../components/NetworkFeature.js";
-import Classification from "../components/Classification";
-import Similarity from "../components/Similarity.js";
-import Signature from "../components/Signature.js";
-import Connection from "../components/Connection";
-import "./Feature.css";
+import StaticFeature from "./components/StaticFeature";
+import DynamicFeature from "./components/DynamicFeature";
+import NetworkFeature from "./components/NetworkFeature";
+import Classification from "./components/Classification";
+import Similarity from "./components/Similarity";
+import Signature from "./components/Signature";
+import Connection from "./components/Connection";
+import { ReportContext } from "./context";
 
-/**
- * globals context
- */
-export const REPORT = createContext({});
-REPORT.displayName = "report"; // for dev-tools // all capital for context
-let report = null; // report will be initialized multiple times. // use report as value for REPORT context
-let msg = "";
+import "./index.css";
 
-/**
- * unpack
- */
-const { TabPane } = Tabs; // another way to import name
-
-/**
- * let's go
- */
 export default () => {
+  const { TabPane } = Tabs; // another way to import name
   const { id } = useParams();
-
-  /**
-   * states
-   */
   const [isLoading, setIsLoading] = useState(true); // page in loading state?
   const [isValid, setIsValid] = useState(true); // id exists?
+  const [msg, setMsg] = useState(""); // 如果获取失败, 展示的消息
+  const [report, setReport] = useState(null);
 
-  /**
-   * actions
-   */
+  useEffect(() => {
+    polling();
+  }, []); // [] here ensures polling runs only once
+
   function polling() {
+    // 这里应该先setReport, 然后再setIsLoading, setIsValid, 思考为什么
     fetch("/feature/report/get/" + id)
       .then((res) => res.json())
       .then((data) => {
         if (data.status == "reported") {
-          report = data.report;
-          report.five_most_like = data.five_most_like;
+          let t = data.report;
+          t.five_most_like = data.five_most_like;
+          setReport(t);
         }
         if (data.status == "error") {
           setIsValid(data.isvalid); // 这个也是invalid
-          msg = data.msg;
+          setMsg(data.msg);
         } else {
           setIsLoading(data.status !== "reported");
           setIsValid(data.isvalid);
@@ -65,23 +47,13 @@ export default () => {
       });
   }
 
-  /**
-   * effects
-   */
-  useEffect(() => {
-    polling();
-  }, []); // [] here ensures polling runs only once
-
-  /**
-   * ui
-   */
   return isValid ? (
     isLoading ? (
       <div className="loading">
         <Spin tip="当前任务正在进行ing" />
       </div>
     ) : (
-      <REPORT.Provider value={report}>
+      <ReportContext.Provider value={report}>
         {" "}
         {/* 提供全局上下文，对于简单的逻辑足够了 */}
         {/* 页头 */}
@@ -125,7 +97,7 @@ export default () => {
             </TabPane>
           </Tabs>
         </div>
-      </REPORT.Provider>
+      </ReportContext.Provider>
     )
   ) : (
     <Result

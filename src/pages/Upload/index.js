@@ -1,33 +1,17 @@
-/**
- * libs
- */
 import { useState } from "react";
 import { Upload, message } from "antd";
 import { InboxOutlined } from "@ant-design/icons";
 
-/**
- * unpack
- */
-const { Dragger } = Upload;
-
-/**
- * use forceUpdate() in functional components
- */
-function useForceUpdate() {
-  const [value, setValue] = useState(0);
-  return () => setValue((value) => value + 1);
-}
-
-/**
- * let's go
- */
 export default () => {
-  const forceUpdate = useForceUpdate();
+  const { Dragger } = Upload;
+  const forceUpdate = useForceUpdate(); // 为了让文件列表实时刷新
 
-  /**
-   * config for dragger
-   */
-  const props = {
+  function useForceUpdate() {
+    const [_, setValue] = useState(0);
+    return () => setValue((value) => value + 1);
+  }
+
+  const propsDragger = {
     name: "file",
     multiple: true,
     action: "/task/create",
@@ -37,9 +21,9 @@ export default () => {
         console.log(info.file, info.fileList);
       }
       if (status === "done") {
-        // 刷新任务列表
+        message.success(`'${info.file.name}' file uploaded successfully.`);
         if (info.file.response.status != "success") {
-          message.error("file type is not pe");
+          message.error("server side error");
         }
         info.fileList.forEach((it) => {
           if (it.response) {
@@ -49,18 +33,17 @@ export default () => {
             }
           }
         });
-        message.success(`'${info.file.name}' file uploaded successfully.`);
       } else if (status === "error") {
         message.error(`${info.file.name} file upload failed.`);
       }
-      forceUpdate();
+      forceUpdate(); // 保证刷新文件列表
     },
   };
 
   return (
     <>
       {/* 文件上传区 */}
-      <Dragger {...props}>
+      <Dragger {...propsDragger}>
         <p className="ant-uploading-drag-icon">
           <InboxOutlined />
         </p>
