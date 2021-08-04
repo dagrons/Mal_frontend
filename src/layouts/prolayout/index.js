@@ -28,10 +28,6 @@ export default (props) => {
             <CloudUploadOutlined style={{ fontSize: "16px" }} />
             <NavLink to="/upload">文件上传</NavLink>
           </Menu.Item>
-          {/* 搜索引擎 */}
-          <Menu.Item key="/list">
-            <NavLink to="/list">任务队列</NavLink>
-          </Menu.Item>
           <Menu.Item key="searchEngine" style={{ float: "right" }}>
             {" "}
             <div

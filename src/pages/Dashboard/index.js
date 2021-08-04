@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { Row, Col, Space, Card, Statistic, Table } from "antd";
 import { Line, Bar, RingProgress, TinyArea } from "@ant-design/charts";
 
+import { getDashboard } from "../../api";
+
 import "antd/dist/antd.css";
 import "./index.scss";
 
@@ -37,8 +39,8 @@ export default () => {
   ]);
 
   useEffect(() => {
-    fetch("/feature/dashboard")
-      .then((res) => res.json())
+    getDashboard()
+      .then((res) => res.data)
       .then((data) => {
         setUploaded(data.samples_count);
         setCurrent(data.current_count);

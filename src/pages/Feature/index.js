@@ -11,6 +11,8 @@ import Signature from "./components/Signature";
 import Connection from "./components/Connection";
 import { ReportContext } from "./context";
 
+import { getReport } from "../../api";
+
 import "./index.scss";
 
 export default () => {
@@ -27,8 +29,8 @@ export default () => {
 
   function polling() {
     // 这里应该先setReport, 然后再setIsLoading, setIsValid, 思考为什么
-    fetch("/feature/report/get/" + id)
-      .then((res) => res.json())
+    getReport(id)
+      .then((res) => res.data)
       .then((data) => {
         if (data.status == "reported") {
           let t = data.report;

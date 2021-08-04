@@ -18,12 +18,6 @@ export default () => {
           <Upload />
         </Prolayout>
       </Route>
-      {/* 任务队列页面 */}
-      <Route path="/list">
-        <Prolayout>
-          <TaskQueue />
-        </Prolayout>
-      </Route>
       {/* 特征展示页面 */} {/* 特征展示页面使用自己的布局 */}
       <Route path="/feature/:id">
         <Feature />
