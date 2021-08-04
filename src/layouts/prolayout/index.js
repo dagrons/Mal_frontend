@@ -3,13 +3,15 @@ import HeaderSearch from "ant-design-pro/lib/HeaderSearch";
 import { AreaChartOutlined, CloudUploadOutlined } from "@ant-design/icons";
 import { NavLink, useLocation, useHistory } from "react-router-dom";
 
+import "./index.scss";
+
 export default (props) => {
   const { Header, Content, Footer } = Layout;
   const location = useLocation(); // 当前location, 用于选择Menu Item
   const history = useHistory(); // 用于搜索框跳转: history.push()
 
   return (
-    <Layout theme="light">
+    <Layout theme="light" class="my-prolayout">
       {/* 导航栏 */}
       <Header
         style={{
@@ -58,7 +60,10 @@ export default (props) => {
       </Header>
 
       {/* 页面主体 */}
-      <Content style={{ padding: "50px 50px 50px 50px" }}>
+      <Content
+        className="my-prolayout-content"
+        style={{ padding: "50px 50px 50px 50px" }}
+      >
         {props.children}
       </Content>
 

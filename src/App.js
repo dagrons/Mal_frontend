@@ -7,8 +7,7 @@ import Feature from "./pages/Feature";
 import TaskQueue from "./pages/TaskQueue";
 import Prolayout from "./layouts/prolayout";
 
-import "antd/dist/antd.min.css";
-import "./App.css";
+import "./App.scss";
 
 export default () => {
   return (

@@ -3,7 +3,7 @@ import { Row, Col, Space, Card, Statistic, Table } from "antd";
 import { Line, Bar, RingProgress, TinyArea } from "@ant-design/charts";
 
 import "antd/dist/antd.css";
-import "./index.css";
+import "./index.scss";
 
 const choices = [
   "Ramnit",
@@ -62,28 +62,28 @@ export default () => {
       });
   }, []);
 
-  useEffect(() => {
-    fetch(
-      "https://gw.alipayobjects.com/os/bmw-prod/e00d52f4-2fa6-47ee-a0d7-105dd95bde20.json"
-    )
-      .then((response) => response.json())
-      .then((json) => {
-        console.log(json);
-        json = json.slice(0, 81);
-        const s = {};
-        for (let i = 0; i < 9; i++) s[i] = 0;
-        for (let i = 0; i < json.length; i++) {
-          json[i].name = choices[Math.floor(i / Math.floor(json.length / 9))];
-          json[i].year = Math.floor(i % Math.floor(json.length / 9)).toString();
-          s[i % Math.floor(json.length / 9)] += Math.random() * 100;
-          json[i].gdp = s[i % Math.floor(json.length / 9)];
-        }
-        setLineData(json);
-      })
-      .catch((error) => {
-        console.log("fetch data failed", error);
-      });
-  }, []);
+  // useEffect(() => {
+  //   fetch(
+  //     "https://gw.alipayobjects.com/os/bmw-prod/e00d52f4-2fa6-47ee-a0d7-105dd95bde20.json"
+  //   )
+  //     .then((response) => response.json())
+  //     .then((json) => {
+  //       console.log(json);
+  //       json = json.slice(0, 81);
+  //       const s = {};
+  //       for (let i = 0; i < 9; i++) s[i] = 0;
+  //       for (let i = 0; i < json.length; i++) {
+  //         json[i].name = choices[Math.floor(i / Math.floor(json.length / 9))];
+  //         json[i].year = Math.floor(i % Math.floor(json.length / 9)).toString();
+  //         s[i % Math.floor(json.length / 9)] += Math.random() * 100;
+  //         json[i].gdp = s[i % Math.floor(json.length / 9)];
+  //       }
+  //       setLineData(json);
+  //     })
+  //     .catch((error) => {
+  //       console.log("fetch data failed", error);
+  //     });
+  // }, []);
 
   const propsTinyArea = {
     height: 100,
@@ -144,7 +144,7 @@ export default () => {
   };
 
   return (
-    <div className="content">
+    <div className="dashboard-content">
       <Row gutter={[16, 16]}>
         <Col flex="1 1 auto">
           <Card
@@ -213,7 +213,7 @@ export default () => {
           </Card>
         </Col>
       </Row>
-      <Row
+      {/* <Row
         gutter={16}
         style={{
           marginTop: "16px",
@@ -224,7 +224,7 @@ export default () => {
             <Line {...propsLine} />
           </Card>
         </Col>
-      </Row>
+      </Row> */}
     </div>
   );
 };

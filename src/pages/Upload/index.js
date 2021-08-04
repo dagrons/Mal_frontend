@@ -2,6 +2,8 @@ import { useState } from "react";
 import { Upload, message } from "antd";
 import { InboxOutlined } from "@ant-design/icons";
 
+import "./index.scss";
+
 export default () => {
   const { Dragger } = Upload;
   const forceUpdate = useForceUpdate(); // 为了让文件列表实时刷新
@@ -43,14 +45,14 @@ export default () => {
   return (
     <>
       {/* 文件上传区 */}
-      <Dragger {...propsDragger}>
-        <p className="ant-uploading-drag-icon">
+      <Dragger className="upload-my-dragger" {...propsDragger}>
+        <p className="upload-icon">
           <InboxOutlined />
         </p>
-        <p className="ant-upload-text">
+        <p className="upload-text">
           🐱‍🚀Click or drag file to this area to upload
         </p>
-        <p className="ant-upload-hint">
+        <p className="upload-hints">
           👀当文件上传完毕，点击下方链接即可查看任务状态
         </p>
       </Dragger>

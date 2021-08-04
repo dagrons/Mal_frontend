@@ -11,7 +11,7 @@ import Signature from "./components/Signature";
 import Connection from "./components/Connection";
 import { ReportContext } from "./context";
 
-import "./index.css";
+import "./index.scss";
 
 export default () => {
   const { TabPane } = Tabs; // another way to import name
@@ -49,7 +49,7 @@ export default () => {
 
   return isValid ? (
     isLoading ? (
-      <div className="loading">
+      <div className="feature-loading">
         <Spin tip="当前任务正在进行ing" />
       </div>
     ) : (

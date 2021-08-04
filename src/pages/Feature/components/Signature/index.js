@@ -5,7 +5,7 @@ import "@antv/graphin-components/dist/index.css"; // Graphin 组件 CSS
 import { ReportContext } from "../../context";
 import B from "./components/BehaviorGraph";
 
-import "./index.css";
+import "./index.scss";
 
 export default () => {
   const { _id: id, signatures } = useContext(ReportContext);
