@@ -22,7 +22,7 @@ export default (props) => {
         <Menu theme="light" mode="horizontal" defaultSelectedKeys={[location]}>
           <Menu.Item key="/dashboard">
             <AreaChartOutlined style={{ fontSize: "16px" }} />
-            <NavLink to="/dashboard">数据面板</NavLink>
+            <NavLink to="/dashboard">样本统计</NavLink>
           </Menu.Item>
           <Menu.Item key="/upload">
             <CloudUploadOutlined style={{ fontSize: "16px" }} />
@@ -41,8 +41,8 @@ export default (props) => {
             >
               {/* 搜索框 */}
               <HeaderSearch
-                placeholder="🐱‍🐉特征搜索"
-                dataSource={["搜索提示一", "搜索提示二", "搜索提示三"]}
+                placeholder="📄目标样本md5"
+                dataSource={["a58e8e935341b6f5cc1369c616de3765"]}
                 onSearch={(value) => {
                   console.log("input", value); // eslint-disable-line
                 }}
@@ -64,9 +64,7 @@ export default (props) => {
       </Content>
 
       {/* 页尾 */}
-      <Footer style={{ textAlign: "center" }}>
-        🐱‍🏍Mal is a platform for malware analysis
-      </Footer>
+      <Footer style={{ textAlign: "center" }}> 🐱‍🏍恶意代码自动化分析</Footer>
     </Layout>
   );
 };

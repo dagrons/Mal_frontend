@@ -47,21 +47,29 @@ export default () => {
 
   return (
     <Tabs defaultActiveKey="1" tabPosition="top">
-      <TabPane tab="UDP" key="1">
-        <Table {...propsTable(network.udp)} />
-      </TabPane>
+      {network.udp.length > 0 && (
+        <TabPane tab="UDP" key="1">
+          <Table {...propsTable(network.udp)} />
+        </TabPane>
+      )}
 
-      <TabPane tab="TCP" key="2">
-        <Table {...propsTable(network.tcp)} />
-      </TabPane>
+      {network.tcp.length > 0 && (
+        <TabPane tab="TCP" key="2">
+          <Table {...propsTable(network.tcp)} />
+        </TabPane>
+      )}
 
-      <TabPane tab="HTTP" key="3">
-        <Table {...propsTable(network.http)} />
-      </TabPane>
+      {network.http.length > 0 && (
+        <TabPane tab="HTTP" key="3">
+          <Table {...propsTable(network.http)} />
+        </TabPane>
+      )}
 
-      <TabPane tab="DNS" key="4">
-        <Table {...propsDNSTable} />
-      </TabPane>
+      {network.dns.length > 0 && (
+        <TabPane tab="DNS" key="4">
+          <Table {...propsDNSTable} />
+        </TabPane>
+      )}
     </Tabs>
   );
 };

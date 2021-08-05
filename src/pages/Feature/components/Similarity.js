@@ -27,7 +27,7 @@ export default () => {
     dataSource: tableData,
     columns: [
       {
-        title: "name",
+        title: "样本ID",
         dataIndex: "name",
         key: "name",
         render: (name) => (
@@ -37,7 +37,7 @@ export default () => {
         ),
       },
       {
-        title: "value",
+        title: "相似度",
         dataIndex: "value",
         key: "value",
       },

@@ -48,14 +48,16 @@ export default () => {
 
   return (
     <Tabs defaultActiveKey="1" tabPosition="top">
-      <TabPane tab="导入导出表" key="1">
-        {report.static.pe_imports.map((pe_import) => (
-          <div>
-            <Title level={5}>{pe_import.dll}</Title>
-            <Table {...propsIOTable(pe_import.imports)} />
-          </div>
-        ))}
-      </TabPane>
+      {report.static.pe_imports.length > 0 && (
+        <TabPane tab="导入导出表" key="1">
+          {report.static.pe_imports.map((pe_import) => (
+            <div>
+              <Title level={5}>{pe_import.dll}</Title>
+              <Table {...propsIOTable(pe_import.imports)} />
+            </div>
+          ))}
+        </TabPane>
+      )}
 
       <TabPane tab="节段信息" key="2">
         <Table {...propsSectionTable} />

@@ -9,12 +9,12 @@ export default () => {
   const report = useContext(ReportContext);
 
   useEffect(() => {
-    let pr = report.local.malware_classification_resnet34;
+    const pr = report.local.malware_classification_resnet34;
     let prob = [];
     for (const [k, v] of Object.entries(pr)) {
       prob.push({ type: k, value: v });
     }
-    const piePlot = new Pie("pie", {
+    const piePlot = new Pie("classification-pie", {
       appendPadding: 10,
       data: prob,
       angleField: "value",
@@ -28,7 +28,7 @@ export default () => {
       interactions: [{ type: "element-selected" }, { type: "element-active" }],
     });
     piePlot.render();
-    const barPlot = new Bar("bar", {
+    const barPlot = new Bar("classification-bar", {
       data: prob,
       xField: "value",
       yField: "type",
@@ -40,20 +40,17 @@ export default () => {
     barPlot.render();
   }, []);
 
-  /**
-   * ui
-   */
   return (
     <div>
       <Row>
         <Col span={12}>
           <Title level={5}>视觉Transformer家族分类概率柱状图</Title>
-          <div id="bar"></div>
+          <div id="classification-bar"></div>
         </Col>
 
         <Col span={11}>
           <Title level={5}>视觉Transformer家族分类概率饼图</Title>
-          <div id="pie"></div>
+          <div id="classification-pie"></div>
         </Col>
       </Row>
 

@@ -4,7 +4,6 @@ import { Route, Switch } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
 import Upload from "./pages/Upload";
 import Feature from "./pages/Feature";
-import TaskQueue from "./pages/TaskQueue";
 import Prolayout from "./layouts/prolayout";
 
 import "./App.scss";
