@@ -102,30 +102,46 @@ export default () => {
           behavior.file_recreated.length > 0) && (
           <TabPane tab="文件操作" key="3">
             <div>
-              <Title level={5}>文件创建</Title>
-              <List
-                bordered
-                dataSource={behavior.file_created}
-                renderItem={(item) => <List.Item>{item}</List.Item>}
-              />
-              <Title level={5}>文件重创建</Title>
-              <List
-                bordered
-                dataSource={behavior.file_recreated}
-                renderItem={(item) => <List.Item>{item}</List.Item>}
-              />
-              <Title level={5}>文件打开</Title>
-              <List
-                bordered
-                dataSource={behavior.file_opened}
-                renderItem={(item) => <List.Item>{item}</List.Item>}
-              />
-              <Title level={5}>文件读取</Title>
-              <List
-                bordered
-                dataSource={behavior.file_read}
-                renderItem={(item) => <List.Item>{item}</List.Item>}
-              />
+              {behavior.file_created.length > 0 && (
+                <>
+                  <Title level={5}>文件创建</Title>
+                  <List
+                    bordered
+                    dataSource={behavior.file_created}
+                    renderItem={(item) => <List.Item>{item}</List.Item>}
+                  />
+                </>
+              )}
+              {behavior.file_recreated.length > 0 && (
+                <>
+                  <Title level={5}>文件重创建</Title>
+                  <List
+                    bordered
+                    dataSource={behavior.file_recreated}
+                    renderItem={(item) => <List.Item>{item}</List.Item>}
+                  />
+                </>
+              )}
+              {behavior.file_opened.length > 0 && (
+                <>
+                  <Title level={5}>文件打开</Title>
+                  <List
+                    bordered
+                    dataSource={behavior.file_opened}
+                    renderItem={(item) => <List.Item>{item}</List.Item>}
+                  />
+                </>
+              )}
+              {behavior.file_read.length > 0 && (
+                <>
+                  <Title level={5}>文件读取</Title>
+                  <List
+                    bordered
+                    dataSource={behavior.file_read}
+                    renderItem={(item) => <List.Item>{item}</List.Item>}
+                  />
+                </>
+              )}
             </div>
           </TabPane>
         )}

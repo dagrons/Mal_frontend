@@ -65,9 +65,9 @@ export default () => {
       setIsLoading(true); // 原报告中没有signature信息
     } else {
       // data = preprocessing(signatures);
+      let ttp_msg_list = [];
       for (let i = 0; i < signatures.length; i++) {
         let ttp = signatures[i].ttp;
-        let ttp_msg_list = [];
         for (let k in ttp) {
           ttp_msg_list.push({
             stage: k,
@@ -75,8 +75,8 @@ export default () => {
             short: ttp[k].short,
           });
         }
-        setTTPMsg(ttp_msg_list);
       }
+      setTTPMsg(ttp_msg_list);
       setIsLoading(false);
     }
   }, []);

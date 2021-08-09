@@ -5,3 +5,6 @@ export const getDashboard = () => get("/feature/dashboard");
 
 // 分析报告
 export const getReport = (id) => get(`/feature/report/get/${id}`);
+
+// 任务状态
+export const getStatus = (id) => get(`/task/status/${id}`);

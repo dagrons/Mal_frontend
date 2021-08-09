@@ -11,7 +11,7 @@ import Signature from "./components/Signature";
 import Connection from "./components/Connection";
 import { ReportContext } from "./context";
 
-import { getReport } from "../../api";
+import { getReport, getStatus } from "../../api";
 
 import "./index.scss";
 
@@ -20,7 +20,7 @@ export default () => {
   const { id } = useParams();
   const [isLoading, setIsLoading] = useState(true); // page in loading state?
   const [isValid, setIsValid] = useState(true); // id exists?
-  const [msg, setMsg] = useState(""); // 如果获取失败, 展示的消息
+  const [msg, setMsg] = useState("正在查询任务状态"); // 如果获取失败, 展示的消息
   const [report, setReport] = useState(null);
 
   useEffect(() => {
@@ -29,22 +29,29 @@ export default () => {
 
   function polling() {
     // 这里应该先setReport, 然后再setIsLoading, setIsValid, 思考为什么
-    getReport(id)
+    getStatus(id)
       .then((res) => res.data)
       .then((data) => {
-        if (data.status == "reported") {
-          let t = data.report;
-          t.five_most_like = data.five_most_like;
-          setReport(t);
-        }
-        if (data.status == "error") {
-          setIsValid(data.isvalid); // 这个也是invalid
-          setMsg(data.msg);
+        if (data === "reported") {
+          setMsg("正在获取报告");
+          getReport(id)
+            .then((res) => res.data)
+            .then((data) => {
+              let t = data.report;
+              t.five_most_like = data.five_most_like;
+              setReport(t);
+              setIsLoading(false);
+            });
+        } else if (data === "exception") {
+          setIsValid(false);
+          setMsg("任务异常");
+        } else if (data === "done") {
+          setMsg("任务即将完成");
+        } else if (data === "running") {
+          setMsg("任务正在进行");
         } else {
-          setIsLoading(data.status !== "reported");
-          setIsValid(data.isvalid);
-          if (data.isvalid && data.status !== "reported")
-            setTimeout(polling, 3000); // 如果任务在队列中并且正执行就等会再试
+          setIsValid(false);
+          setMsg("任务不存在");
         }
       });
   }
@@ -52,7 +59,7 @@ export default () => {
   return isValid ? (
     isLoading ? (
       <div className="feature-loading">
-        <Spin tip="当前任务正在进行ing" />
+        <Spin tip={msg} />
       </div>
     ) : (
       <ReportContext.Provider value={report}>

@@ -31,6 +31,36 @@ export default () => {
     };
   };
 
+  const propsHTTPTable = {
+    dataSource: network.http,
+    columns: [
+      {
+        title: "目标",
+        dataIndex: "host",
+      },
+      {
+        title: "路径",
+        dataIndex: "path",
+      },
+      {
+        title: "URI",
+        dataIndex: "uri",
+      },
+      {
+        title: "主体",
+        dataIndex: "body",
+      },
+      {
+        title: "方法",
+        dataIndex: "method",
+      },
+      {
+        title: "数据",
+        dataIndex: "data",
+      },
+    ],
+  };
+
   const propsDNSTable = {
     dataSource: network.dns,
     columns: [
@@ -61,7 +91,7 @@ export default () => {
 
       {network.http.length > 0 && (
         <TabPane tab="HTTP" key="3">
-          <Table {...propsTable(network.http)} />
+          <Table {...propsHTTPTable} />
         </TabPane>
       )}
 
