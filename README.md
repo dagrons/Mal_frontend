@@ -155,3 +155,12 @@ package.json => homepage: where index.html find static files
 
 - Nodemon Error: System limit for number of file watchers reached
 > https://stackoverflow.com/questions/53930305/nodemon-error-system-limit-for-number-of-file-watchers-reached
+
+- 环境搭建 使用nvm
+nvm换源
+```bash
+nvm node_mirror https://npm.taobao.org/mirrors/node/ # nvm换源
+nvm install node
+apt install npm
+npm install -g yarn 
+```
