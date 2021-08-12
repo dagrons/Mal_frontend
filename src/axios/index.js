@@ -20,9 +20,9 @@ export const get = (url, params, config = {}) => {
   });
 };
 
-export const post = (url, params, config = {}) => {
+export const post = (url, params, data, config = {}) => {
   return new Promise((resolve, reject) => {
-    axios({ method: "post", url, params, ...config })
+    axios({ method: "post", url, params, data, ...config })
       .then((response) => {
         resolve(response);
       })

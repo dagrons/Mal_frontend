@@ -47,8 +47,10 @@ export default () => {
           setMsg("任务异常");
         } else if (data === "done") {
           setMsg("任务即将完成");
+          setTimeout(polling, 3000);
         } else if (data === "running") {
           setMsg("任务正在进行");
+          setTimeout(polling, 3000);
         } else {
           setIsValid(false);
           setMsg("任务不存在");
