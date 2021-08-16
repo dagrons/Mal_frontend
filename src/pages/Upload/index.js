@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Upload, message, Typography } from "antd";
+import { Spin, Upload, message, Typography } from "antd";
 import { InboxOutlined } from "@ant-design/icons";
+
+import { getPendingList, getRunningList } from "../../api";
 
 import "./index.scss";
 
@@ -9,7 +11,10 @@ export default () => {
   const { Title } = Typography;
   const { Dragger } = Upload;
   const forceUpdate = useForceUpdate(); // 为了让文件列表实时刷新
-  const [recentTasks, setRecentTasks] = useState([]);
+  const [recentTasks, setRecentTasks] = useState([]); // 最近任务, 从localStorage获取
+  const [pendingTasks, setPendingTasks] = useState([]); // pending tasks
+  const [runningTasks, setRunningTasks] = useState([]); // 正在运行中任务  
+  const [isLoadingTasks, setIsLoadingTasks] = useState(true); // 是否正在加载任务列表
 
   useEffect(() => {
     if (localStorage.getItem("recentTasks") !== null) {
@@ -17,9 +22,29 @@ export default () => {
     }
   }, recentTasks);
 
+  useEffect(()=>{
+    setInterval(polling, 2000);
+  }, []);
+
   function useForceUpdate() {
     const [_, setValue] = useState(0);
     return () => setValue((value) => value + 1);
+  }
+
+  function polling() {  
+    setIsLoadingTasks(true);
+    getRunningList()    
+    .then(res => res.data)
+    .then(data => {
+      setRunningTasks(data);            
+    }).then(()=>{
+      getPendingList()
+     .then(res => res.data)
+     .then(data => {
+      setPendingTasks(data);
+      setIsLoadingTasks(false)
+    })
+    })    
   }
 
   function clearHistory() {
@@ -80,6 +105,32 @@ export default () => {
           🖱当文件上传完毕，点击下方链接即可查看任务状态
         </p>
       </Dragger>
+
+      {/* 等待运行任务 */}      
+      <Title level={3} class="upload-running-tasks-title">
+          等待运行任务        
+      </Title>    
+      <ul>
+          {pendingTasks.map((it) => (
+            <li>
+              <Link to={"feature/" + it}>{it}</Link>
+            </li>
+          ))}
+      </ul>
+
+      {/* 正在运行任务 */}      
+      <Title level={3} class="upload-running-tasks-title">
+        正在运行任务        
+      </Title>    
+      <ul>
+        {runningTasks.map((it) => (
+          <li>
+            <Link to={"feature/" + it}>{it}</Link>
+          </li>
+        ))}
+      </ul>      
+      
+      {/* 最近上传任务 */}
       <Title level={3} class="upload-recent-tasks-title">
         最近上传任务
         <button class="upload-clear-history-button" onClick={clearHistory}>
@@ -92,7 +143,7 @@ export default () => {
             <Link to={"feature/" + it.md5}>{it.name}</Link>
           </li>
         ))}
-      </ul>
+      </ul>      
     </>
   );
 };
