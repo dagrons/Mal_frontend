@@ -106,10 +106,11 @@ export default () => {
         </p>
       </Dragger>
 
-      {/* 等待运行任务 */}      
-      <Title level={3} class="upload-running-tasks-title">
+      {/* 等待运行任务 */}            
+      <Title level={3} class="upload-pending-tasks-title">
           等待运行任务        
       </Title>    
+      {isLoadingTasks? <Spin size="small" /> : 
       <ul>
           {pendingTasks.map((it) => (
             <li>
@@ -117,11 +118,13 @@ export default () => {
             </li>
           ))}
       </ul>
+      }
 
       {/* 正在运行任务 */}      
       <Title level={3} class="upload-running-tasks-title">
         正在运行任务        
       </Title>    
+      {isLoadingTasks? <Spin size="small" /> : 
       <ul>
         {runningTasks.map((it) => (
           <li>
@@ -129,6 +132,7 @@ export default () => {
           </li>
         ))}
       </ul>      
+      }
       
       {/* 最近上传任务 */}
       <Title level={3} class="upload-recent-tasks-title">
