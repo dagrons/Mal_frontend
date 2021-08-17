@@ -10,3 +10,4 @@ export const getReport = (id) => get(`/feature/report/get/${id}`);
 export const getRunningList = () => get('/task/running_list');
 export const getStatus = (id) => get(`/task/status/${id}`);
 export const getPendingList = () => get('/task/pending_list');  
+export const getPendingCnt = () => get('/task/pending_cnt')

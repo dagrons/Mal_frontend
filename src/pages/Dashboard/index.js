@@ -2,30 +2,18 @@ import { useState, useEffect } from "react";
 import { Row, Col, Space, Card, Statistic, Table } from "antd";
 import { Line, Bar, RingProgress, TinyArea } from "@ant-design/charts";
 
-import { getDashboard } from "../../api";
+import { getDashboard, getPendingCnt } from "../../api";
 
 import "antd/dist/antd.css";
 import "./index.scss";
 
-const choices = [
-  "Ramnit",
-  "Lollipop",
-  "Kelihos_ver3",
-  "Vundo",
-  "Simda",
-  "Tracur",
-  "Kelihos_ver1",
-  "Obfuscator",
-  "Gatak",
-];
-
 export default () => {
-  const [current, setCurrent] = useState(0);
+  const [pendingCnt, setPendingCnt] = useState(0);
+  const [current, setCurrent] = useState(0);  
   const [uploaded, setUploaded] = useState(0);
   const [recent, setRecent] = useState(0);
   const [tinyarea_data, setTinyAreaData] = useState([]);
-  const [typeres_data, setTyperesData] = useState([]);
-  const [line_data, setLineData] = useState([]);
+  const [typeres_data, setTyperesData] = useState([]);  
   const [dist, setDist] = useState([
     { type: "Ramnit", value: 0 },
     { type: "Lollipop", value: 0 },
@@ -37,6 +25,14 @@ export default () => {
     { type: "Obfuscator", value: 0 },
     { type: "Gatak", value: 0 },
   ]);
+
+  useEffect(() => {
+    getPendingCnt()
+    .then(res => res.data)
+    .then(data => {
+      setPendingCnt(data);;
+    })
+  });
 
   useEffect(() => {
     getDashboard()
@@ -63,29 +59,6 @@ export default () => {
         setDist(t);
       });
   }, []);
-
-  // useEffect(() => {
-  //   fetch(
-  //     "https://gw.alipayobjects.com/os/bmw-prod/e00d52f4-2fa6-47ee-a0d7-105dd95bde20.json"
-  //   )
-  //     .then((response) => response.json())
-  //     .then((json) => {
-  //       console.log(json);
-  //       json = json.slice(0, 81);
-  //       const s = {};
-  //       for (let i = 0; i < 9; i++) s[i] = 0;
-  //       for (let i = 0; i < json.length; i++) {
-  //         json[i].name = choices[Math.floor(i / Math.floor(json.length / 9))];
-  //         json[i].year = Math.floor(i % Math.floor(json.length / 9)).toString();
-  //         s[i % Math.floor(json.length / 9)] += Math.random() * 100;
-  //         json[i].gdp = s[i % Math.floor(json.length / 9)];
-  //       }
-  //       setLineData(json);
-  //     })
-  //     .catch((error) => {
-  //       console.log("fetch data failed", error);
-  //     });
-  // }, []);
 
   const propsTinyArea = {
     height: 100,
@@ -122,29 +95,6 @@ export default () => {
     pagination: { position: ["none", "none"] },
   };
 
-  const propsLine = {
-    data: line_data,
-    height: 300,
-    xField: "year",
-    yField: "gdp",
-    seriesField: "name",
-    yAxis: {
-      label: {
-        formatter: function formatter(v) {
-          return "".concat((v / 1000000000).toFixed(1), " B");
-        },
-      },
-    },
-    legend: { position: "top" },
-    smooth: true,
-    animation: {
-      appear: {
-        animation: "path-in",
-        duration: 5000,
-      },
-    },
-  };
-
   return (
     <div className="dashboard-content">
       <Row gutter={[16, 16]}>
@@ -157,6 +107,7 @@ export default () => {
           >
             <Space>
               <Statistic title="上传数" value={uploaded} />
+              <Statistic title="等待处理" value={pendingCnt} />
               <Statistic title="正在处理" value={current} />
               <Statistic title="近期上传样本数" value={recent} />
             </Space>

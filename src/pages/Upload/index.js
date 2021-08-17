@@ -14,6 +14,7 @@ export default () => {
   const [recentTasks, setRecentTasks] = useState([]); // 最近任务, 从localStorage获取
   const [pendingTasks, setPendingTasks] = useState([]); // pending tasks
   const [runningTasks, setRunningTasks] = useState([]); // 正在运行中任务  
+  const [isLoadingTasks, setIsLoadingTasks] = useState(true); 
 
   useEffect(() => {
     if (localStorage.getItem("recentTasks") !== null) {
@@ -22,7 +23,7 @@ export default () => {
   }, recentTasks);
 
   useEffect(()=>{
-    setInterval(polling, 2000);
+    setInterval(polling, 3000);
   }, []);
 
   function useForceUpdate() {
@@ -31,6 +32,7 @@ export default () => {
   }
 
   function polling() {      
+    setIsLoadingTasks(true);
     getRunningList()    
     .then(res => res.data)
     .then(data => {
@@ -40,6 +42,7 @@ export default () => {
      .then(res => res.data)
      .then(data => {
       setPendingTasks(data);
+      setIsLoadingTasks(false);
     })
     })    
   }
@@ -107,6 +110,7 @@ export default () => {
       <Title level={3} class="upload-pending-tasks-title">
           等待运行任务        
       </Title>          
+      {isLoadingTasks? <Spin size="small"/> :
       <ul>
           {pendingTasks.map((it) => (
             <li>
@@ -114,11 +118,13 @@ export default () => {
             </li>
           ))}
       </ul>      
+      }
 
       {/* 正在运行任务 */}      
       <Title level={3} class="upload-running-tasks-title">
         正在运行任务        
       </Title>    
+      {isLoadingTasks? <Spin size="small" /> :
       <ul>
         {runningTasks.map((it) => (
           <li>
@@ -126,6 +132,7 @@ export default () => {
           </li>
         ))}
       </ul>            
+      }
       
       {/* 最近上传任务 */}
       <Title level={3} class="upload-recent-tasks-title">
