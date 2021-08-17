@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { Row, Col, Space, Card, Statistic, Table } from "antd";
-import { Line, Bar, RingProgress, TinyArea } from "@ant-design/charts";
+import { Line, Bar, RingProgress, TinyArea, Area } from "@ant-design/charts";
 
-import { getDashboard, getPendingCnt } from "../../api";
+import { getAPTDistribution, getDashboard, getPendingCnt } from "../../api";
 
 import "antd/dist/antd.css";
 import "./index.scss";
@@ -14,6 +14,7 @@ export default () => {
   const [recent, setRecent] = useState(0);
   const [tinyarea_data, setTinyAreaData] = useState([]);
   const [typeres_data, setTyperesData] = useState([]);  
+  const [APTDistributionData, setAPTDistributionData] = useState([]);
   const [dist, setDist] = useState([
     { type: "Ramnit", value: 0 },
     { type: "Lollipop", value: 0 },
@@ -32,7 +33,7 @@ export default () => {
     .then(data => {
       setPendingCnt(data);;
     })
-  });
+  }, []);
 
   useEffect(() => {
     getDashboard()
@@ -60,47 +61,68 @@ export default () => {
       });
   }, []);
 
-  const propsTinyArea = {
-    height: 100,
-    autoFit: false,
+  useEffect(()=>{
+    getAPTDistribution()
+    .then(res => res.data)
+    .then(data => {
+      let t = []      
+      for (const [k, v] of Object.entries(data)) {
+        t.push({ family: k, count: v });        
+      }      
+      setAPTDistributionData(t)
+    })
+  }, [])
+
+  const propsArea = {
+    xField: 'year',
+    yField: 'value',
+    height: 150,
+    // autoFit: false,
     data: tinyarea_data,
     smooth: true,
   };
 
-  const propsBar = {
-    data: typeres_data,
-    height: 400,
-    xField: "count",
-    yField: "family",
-    seriesField: "family",
-    legend: { position: "top-left" },
-  };
+  const propsBar = (data) => {
+    return {
+      data,
+      height: 300,
+      xField: "count",
+      yField: "family",
+      seriesField: "family",
+      legend: { position: "top-left" },
+    }
+  }
 
-  const propsTable = {
-    dataSource: typeres_data,
-    columns: [
-      {
-        title: "family",
-        dataIndex: "family",
-        key: "family",
-      },
-      {
-        title: "count",
-        dataIndex: "count",
-        key: "count",
-      },
-    ],
-    size: "small",
-    showHeader: false,
-    pagination: { position: ["none", "none"] },
+  const propsTable = (data) => {
+    return {
+      dataSource: data,
+      height: 250,
+      columns: [
+        {
+          title: "family",
+          dataIndex: "family",
+          key: "family",
+        },
+        {
+          title: "count",
+          dataIndex: "count",
+          key: "count",
+        },
+      ],
+      size: "small",
+      showHeader: false,
+      pagination: { position: ["none", "none"] },
+    }    
   };
 
   return (
-    <div className="dashboard-content">
+    <div className="dashboard-content">      
+      {/* 数据概览, 样本分布, 趋势图 */}
       <Row gutter={[16, 16]}>
+
         <Col flex="1 1 auto">
           <Card
-            title="数据概览"
+            title="任务概览"
             style={{
               height: "188px",
             }}
@@ -113,8 +135,9 @@ export default () => {
             </Space>
           </Card>
         </Col>
+
         <Col flex="1 1 auto">
-          <Card title="样本分布">
+          <Card title="家族样本分布">
             <div>
               <Space>
                 {dist.map((t) => (
@@ -135,18 +158,25 @@ export default () => {
               </Space>
             </div>
           </Card>
-        </Col>
+        </Col>        
+      </Row>
+    
+      <Row
+        gutter={[16, 16]}
+        style={{
+          marginTop: "16px", // Row和Row之间的margin用marinTop处理
+        }}
+      >
         <Col flex="1 1 auto">
           <Card
-            title="趋势图"
-            style={{
-              height: "188px",
-            }}
+            title="样本数增长趋势"            
           >
-            <TinyArea {...propsTinyArea} />
+            <Area {...propsArea} />
           </Card>
         </Col>
       </Row>
+          
+      {/* 家族样本统计 */}
       <Row
         gutter={[16, 16]}
         style={{
@@ -154,30 +184,40 @@ export default () => {
         }}
       >
         <Col flex="auto">
-          <Card title="各个家族分布">
+          <Card title="各个家族样本分布">
             <Row gutter={16} align="middle">
               <Col span={16}>
-                <Bar {...propsBar} />
+                <Bar {...propsBar(typeres_data)} />
               </Col>
               <Col span={8}>
-                <Table {...propsTable} />
+                <Table {...propsTable(typeres_data)} />
               </Col>
             </Row>
           </Card>
         </Col>
       </Row>
-      {/* <Row
-        gutter={16}
+      
+      {/* APT样本统计 */}
+      <Row
+        gutter={[16, 16]}
         style={{
-          marginTop: "16px",
+          marginTop: "16px", // Row和Row之间的margin用marinTop处理
         }}
       >
         <Col flex="auto">
-          <Card title="流行趋势图">
-            <Line {...propsLine} />
+          <Card title="各个APT组织样本分布">
+            <Row gutter={16} align="middle">
+              <Col span={16}>
+                <Bar {...propsBar(APTDistributionData)} />
+              </Col>
+              <Col span={8}>
+                <Table {...propsTable(APTDistributionData)} />
+              </Col>
+            </Row>
           </Card>
         </Col>
-      </Row> */}
+      </Row>
+
     </div>
   );
 };

@@ -16,7 +16,7 @@ export default () => {
   useEffect(() => {
     let tdata = [];
     for (const t of sim) {
-      tdata.push({ name: t[0], value: t[1].toString() });
+      tdata.push({ name: t[0], value: t[1].toString(), apt_family: t[2] });
     }
     setGraphinData(preprocessing(id.length, sim));
     setTableData(tdata);
@@ -41,6 +41,11 @@ export default () => {
         dataIndex: "value",
         key: "value",
       },
+      {
+        title: "所属APT组织",
+        dataIndex: "apt_family",
+        key: "apt_family",
+      }
     ],
   };
 

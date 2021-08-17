@@ -2,6 +2,7 @@ import { get, post } from "../axios";
 
 // 数据面板
 export const getDashboard = () => get("/feature/dashboard");
+export const getAPTDistribution = () => get('/feature/get_apt_distribution')
 
 // 分析报告
 export const getReport = (id) => get(`/feature/report/get/${id}`);
