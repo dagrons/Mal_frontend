@@ -160,7 +160,7 @@ package.json => homepage: where index.html find static files
 nvm换源
 ```bash
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash # 下载nvm
-nvm node_mirror https://npm.taobao.org/mirrors/node/ # nvm换源
+echo "export NVM_NODEJS_ORG_MIRROR=http://npm.taobao.org/mirrors/node/" >>  ~/.bashrc
 nvm install node
 apt install npm
 npm install -g yarn 
