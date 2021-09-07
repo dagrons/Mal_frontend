@@ -58,6 +58,14 @@ export default () => {
       });
   }
 
+  function download(content, fileName, contentType) {
+    var a = document.createElement("a");
+    var file = new Blob([content], {type: contentType});
+    a.href = URL.createObjectURL(file);
+    a.download = fileName;
+    a.click();
+  }
+
   return isValid ? (
     isLoading ? (
       <div className="feature-loading">
@@ -68,6 +76,11 @@ export default () => {
         {" "}
         {/* 提供全局上下文，对于简单的逻辑足够了 */}
         {/* 页头 */}
+        <Button onClick={
+          ()=>getReport(id).
+          then(res=>res.data).
+          then(data => download(JSON.stringify(data), "report.json", "text/plain"))
+        }>下载报告</Button>
         <div>
           <Link to="/task">
             <PageHeader
@@ -75,10 +88,10 @@ export default () => {
               onBack={() => null}
               title={report._id + " 分析报告"}
               subTitle=""
-            ></PageHeader>
-          </Link>
-        </div>
-        <div>
+            ></PageHeader>            
+          </Link>                   
+        </div>        
+        <div>          
           <Tabs defaultActiveKey="1" tabPosition="left">
             <TabPane tab="静态特征" key="1">
               <StaticFeature />
