@@ -5,7 +5,36 @@ import { ReportContext } from "../context";
 
 export default () => {
   const { TabPane } = Tabs;
-  const network = useContext(ReportContext).network;
+  const network = sanity_correct(useContext(ReportContext).network);
+
+  function sanity_correct(network) {
+    // 删除无效的udp信息
+    let udp = [];
+    for (let it of network.udp) {
+      if (it.dst.includes("192.168.56.255") || it.dst.includes("255.255.255.255")) continue;
+      udp.push(it)
+    }
+    
+    // 删除无效的tcp信息
+    let tcp = [];
+    for (let it of network.tcp) {
+      if (it.src.includes("192.168.56.1")) continue;
+      tcp.push(it)
+    }
+
+    // 删除无效的http信息
+    let http = []
+    for (let it of network.http) {
+      if (it.host.includes("192.168.56.")) continue;
+      http.push(it)
+    }
+
+    network.udp = udp;
+    network.tcp = tcp;
+    network.http = http;
+
+    return network
+  }
 
   const propsTable = (x) => {
     return {

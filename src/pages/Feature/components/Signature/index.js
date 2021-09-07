@@ -6,12 +6,33 @@ import { ReportContext } from "../../context";
 import B from "./components/BehaviorGraph";
 
 import "./index.scss";
+import { ContinuousLegend } from "@antv/g2/lib/dependents";
 
 export default () => {
-  const { _id: id, signatures } = useContext(ReportContext);
+  let { _id: id, signatures } = useContext(ReportContext);
+  signatures = sanity_correct(signatures);
   const [isLoading, setIsLoading] = useState(true); // is the preprocessing finished?
   const [bData, setBData] = useState(null);
   const [TTPMsg, setTTPMsg] = useState([]);
+
+  function sanity_correct(signatures) {
+    let sigs = []
+    for (let it of signatures) {      
+      let marks = []
+      for (let mark of it.marks) {
+        if (mark.suspicious_request && mark.suspicious_request.includes("192.168.56.") 
+        || mark.ioc && mark.ioc.includes("192.168.56.")) {
+          continue;
+        } else {
+          marks.push(mark)
+        }
+      }
+      if (marks.length > 0) {
+        sigs.push(it)
+      }
+    }
+    return sigs;
+  }
 
   useEffect(() => {
     setBData(
