@@ -80,7 +80,7 @@ export default () => {
           ()=>getReport(id).
           then(res=>res.data).
           then(data => download(JSON.stringify(data), "report.json", "text/plain"))
-        }>下载报告</Button>
+        } className="download-button">下载报告</Button>
         <div>
           <Link to="/task">
             <PageHeader
