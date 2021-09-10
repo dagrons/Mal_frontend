@@ -115,6 +115,7 @@ package.json => homepage: where index.html find static files
 
 ## ARCH
 
+```
 📦src
  ┣ 📂api
  ┣ 📂components
@@ -150,6 +151,7 @@ package.json => homepage: where index.html find static files
  ┣ 📜logo.svg
  ┣ 📜reportWebVitals.js
  ┗ 📜setupTests.js
+```
 
 ## FAQ
 
