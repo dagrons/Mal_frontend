@@ -55,7 +55,7 @@ export default () => {
   const propsDragger = {
     name: "file",
     multiple: true,
-    action: "/task/create",
+    action: "/api/v2/task/create",
     onChange(info) {
       const { status } = info.file;
       if (status !== "uploading") {
