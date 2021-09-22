@@ -7,6 +7,7 @@ import B from "./components/BehaviorGraph";
 
 import "./index.scss";
 import { ContinuousLegend } from "@antv/g2/lib/dependents";
+import translatedTTP from "../../../../assets/translatedTTP"
 
 export default () => {
   let { _id: id, signatures } = useContext(ReportContext);
@@ -90,10 +91,11 @@ export default () => {
       for (let i = 0; i < signatures.length; i++) {
         let ttp = signatures[i].ttp;
         for (let k in ttp) {
+          
           ttp_msg_list.push({
             stage: k,
-            long: ttp[k].long,
-            short: ttp[k].short,
+            long: translatedTTP[k].long,
+            short: translatedTTP[k].short,
           });
         }
       }

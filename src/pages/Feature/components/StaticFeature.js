@@ -72,7 +72,7 @@ export default () => {
       </TabPane>
 
       <TabPane tab="灰度图" key="4">
-        <Image width={200} src={"/feature/bmp/get/" + report._id} />
+        <Image width={200} src={"/api/v2/feature/bmp/get/" + report._id} />
       </TabPane>
     </Tabs>
   );
