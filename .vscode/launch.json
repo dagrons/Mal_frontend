@@ -1,0 +1,27 @@
+{
+  "configurations": [
+    {
+      "name": "Launch Edge",
+      "request": "launch",
+      "type": "pwa-msedge",
+      "url": "http://mal.lab:3030",
+      "webRoot": "${workspaceFolder}"
+    },
+    {
+      "type": "firefox",
+      "request": "launch",
+      "reAttach": true,
+      "name": "Launch localhost",
+      "url": "http://localhost:3030",
+      "webRoot": "${workspaceFolder}"
+    },
+    
+    {
+      "name": "Launch Chrome",
+      "request": "launch",
+      "type": "pwa-chrome",
+      "url": "http://10.112.31.202:3030",
+      "webRoot": "${workspaceFolder}"
+    }
+  ]
+}
