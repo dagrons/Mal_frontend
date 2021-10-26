@@ -11,6 +11,9 @@
 # production
 /build
 
+yarn.lock   
+.vscode
+
 # misc
 .DS_Store
 .env.local
