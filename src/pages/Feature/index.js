@@ -8,7 +8,6 @@ import NetworkFeature from "./components/NetworkFeature";
 import Classification from "./components/Classification";
 import Similarity from "./components/Similarity";
 import Signature from "./components/Signature";
-import Connection from "./components/Connection";
 import { ReportContext } from "./context";
 
 import { getReport, getStatus } from "../../api";
@@ -115,10 +114,7 @@ export default () => {
               <TabPane tab="预警分析" key="6">
                 <Signature />
               </TabPane>
-            )}
-            <TabPane tab="关联分析" key="7">
-              <Connection />
-            </TabPane>
+            )}            
           </Tabs>
         </div>
       </ReportContext.Provider>
