@@ -107,7 +107,7 @@ export default () => {
             <TabPane tab="家族分类" key="4">
               <Classification />
             </TabPane>
-            <TabPane tab="同源分析" key="5">
+            <TabPane tab="起源分析" key="5">
               <Similarity />
             </TabPane>
             {report.signatures /* sigature为可选字段 */ && (
